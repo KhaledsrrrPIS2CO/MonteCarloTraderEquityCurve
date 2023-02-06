@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 initial_equity = 3000
 loss_pct = 0.01
 win_pct = 0.018
-win_rate = 0.41
-n_simulations = 4000
+win_rate = 0.4
+n_simulations = 400
 
 
 # Write the simulation function

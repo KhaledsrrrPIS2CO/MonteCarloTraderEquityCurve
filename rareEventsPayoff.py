@@ -1,4 +1,9 @@
-# monte carlo simulation for an options trader possible equity path
+# rare events prices are usually undervalued because of psychological bias Fact: that 90% of options buyer lose money
+# This fact does not mean those who buy options do not make  a killing If an options buyer make 50x with only 10% win
+# rate she/he will be ahead of most people in a nutshell frequency does not matter what matter is the asymmetry of the
+# reward Let us say profitable restaurant  makes on average 10% ROI a year. COVID 19 and many previously profitable
+# restaurant went bust.
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,10 +11,10 @@ import matplotlib.pyplot as plt
 # Define the parameters
 initial_equity = 3000
 loss_pct = 0.01
-win_pct = 0.022
-win_rate = 0.50
+win_pct = 0.5
+win_rate = 0.05
 n_simulations = 400
-sudden_error = 0.1
+sudden_error = 0.05
 
 
 # Write the simulation function
@@ -51,3 +56,6 @@ plt.plot(equity)
 plt.xlabel("number of trades")
 plt.ylabel("Equity")
 plt.show()
+
+
+

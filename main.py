@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 # Define the parameters
 initial_equity = 3000  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.02  # the percentage gain when a trade is successful
-win_rate = 0.5  # the win rate of the trader's trades
+win_pct = 0.015  # the percentage gain when a trade is successful
+win_rate = 0.6  # the win rate of the trader's trades
 n_simulations = 400  # number of trades to be simulated
 sudden_error = 0.3  # the sudden loss rate for every 75 trades
 
@@ -42,7 +42,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
         equity[i] = equity_counter
 
         # Introduce the sudden loss of 5% or any desired %, with any desired frequency
-        if i % 300 == 0:
+        if i % 30000 == 0:
             # Calculate the sudden loss
             sudden_loss = -equity_counter * sudden_error
             # Add the sudden loss to the equity counter

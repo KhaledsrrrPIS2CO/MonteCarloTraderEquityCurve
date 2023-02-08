@@ -4,10 +4,11 @@ import matplotlib.pyplot as plt
 # Define the parameters
 initial_equity = 3000  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.015  # the percentage gain when a trade is successful
-win_rate = 0.6  # the win rate of the trader's trades
+win_pct = 0.0128  # the percentage gain when a trade is successful
+win_rate = 0.60  # the win rate of the trader's trades
 n_simulations = 400  # number of trades to be simulated
-sudden_error = 0.3  # the sudden loss rate for every 75 trades
+sudden_loss_pct = 0.0004  # the sudden loss rate
+sudden_loss_interval = 40  # the sudden loss interval
 
 
 # Define the simulation function to calculate the equity curve of the options trader
@@ -42,22 +43,23 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
         equity[i] = equity_counter
 
         # Introduce the sudden loss of 5% or any desired %, with any desired frequency
-        if i % 30000 == 0:
+        if i % sudden_loss_interval == 0:
             # Calculate the sudden loss
             sudden_loss = -equity_counter * sudden_error
             # Add the sudden loss to the equity counter
             equity_counter += sudden_loss
-            print("|||||||||||||||||||||||||||||||||||||||||||||Sudden Loss of ", "{:.2f}".format(sudden_loss), " at trade ", i)
+            print("||||||||||||||||||||||||||Sudden Loss of ", "{:.2f}".format(sudden_loss), " at trade ", i)
 
         print("||Daily PnL:", "{:.2f}".format(daily_return), "||   Equity:", "{:.2f}".format(equity_counter))
     # Return the final equity array
     return equity
 
 # Run the simulation by calling the simulate_equity_curve function
-equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, sudden_error)
+equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, sudden_loss_pct)
 
 # Plot the results using matplotlib
+plt.title("Equity curve")
 plt.plot(equity)
-plt.xlabel("number of trades")
-plt.ylabel("Equity")
+plt.xlabel("Number of Simulations")
+plt.ylabel("$$$")
 plt.show()

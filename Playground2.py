@@ -1,21 +1,23 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import random
 
 # Define the parameters
-initial_equity = 1000  # initial equity amount of the options trader
+initial_equity = 2770  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.015  # the percentage gain when a trade is successful
-win_rate = 0.6  # the win rate of the trader's trades
-n_simulations = 50  # number of trades to be simulated
-sudden_error = 0.1  # the sudden loss rate
-sudden_loss_interval = 40  # the sudden loss interval
-convex_payoff_lower = 1.5  # lower bound for the random convex payoff
-convex_payoff_upper = 1.0  # upper bound for the random convex payoff
+win_pct = 0.01  # the percentage gain when a trade is successful
+win_rate = 0.5  # the win rate of the trader's trades
+n_simulations = 60  # number of trades to be simulated
+sudden_error_upper = 0.05  # the sudden loss upper rate
+sudden_error_lower = 0.03  # the sudden loss  lower rate
+sudden_loss_interval = random.randint(30, 40)  # the sudden loss interval
+convex_payoff_lower = 0.05  # lower bound for the random convex payoff
+convex_payoff_upper = 0.10  # upper bound for the random convex payoff
 frequency_lower = 0.2  # lower bound for the random frequency of the convex payoff
 frequency_upper = 0.4  # upper bound for the random frequency of the convex payoff
 
 # Define the simulation function to calculate the equity curve of the options trader
-def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, sudden_error, convex_payoff_lower, convex_payoff_upper, frequency_lower, frequency_upper):
+def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, convex_payoff_lower, convex_payoff_upper, frequency_lower, frequency_upper):
     # Initialize an array to store the equity value at each trade
     equity = np.zeros((n_simulations,))
     # Set the initial equity value
@@ -25,9 +27,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
     # Set the fixed value for commissions
     commissions = -4
 
-    # Generate a random convex payoff rate and frequency
-    convex_payoff = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
-    frequency = np.random.uniform(frequency_lower, frequency_upper)
+
 
     # Loop through the number of trades to be simulated
     for i in range(1, n_simulations):
@@ -50,31 +50,34 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
         equity[i] = equity_counter
 
         # Introduce a random convex payoff with a random frequency
-        if np.random.uniform(0, 1) <= frequency:
+        if i % np.random.randint(20, 40) == 0:
+            # Generate a random convex payoff rate
+            convex_payoff = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
             # Calculate the convex payoff
-            convex_payoff_dollar = equity_counter * convex_payoff
-            equity_counter += convex_payoff_dollar ### DOUBKE chexek
+            convex_payoff_amount = equity_counter * convex_payoff
+            equity_counter += convex_payoff_amount
 
-            print("XXXXXXXXXXXXXXXXXXXXX|| Random convex payoff ", "{:.2f}".format(convex_payoff_dollar),
+            print(i, ":", "XXXXXXXXXXXXXXXXXXXXX|| Random convex payoff ", "{:.2f}".format(convex_payoff_amount),
                   " ({:.2f}%)".format(convex_payoff * 100), " at trade ", i)
 
         # Introduce the sudden loss of a random percentage between 5% and 10% with any desired frequency
         if i % sudden_loss_interval == 0:
             # Generate a random percentage loss between 5% and 10%
-            sudden_loss_pct = np.random.uniform(0.05, 0.10)
+            sudden_loss_pct = np.random.uniform(sudden_error_upper, sudden_error_lower)
             # Calculate the sudden loss
             sudden_loss = -equity_counter * sudden_loss_pct
             # Add the sudden loss to the equity counter
             equity_counter += sudden_loss
-            print("|||||||||||||||||||||||||||||||||||||||||||||Sudden Loss of ", "{:.2f}".format(sudden_loss),
+            print(i, ":", "|||||||||||||||||||||||||Sudden Loss of ", "{:.2f}".format(sudden_loss),
                   " ({:.2f}%)".format(sudden_loss_pct * 100), " at trade ", i)
 
-        print("||Daily PnL:", "{:.2f}".format(daily_return), "||   Equity:", "{:.2f}".format(equity_counter))
+        print(i, ":", "||Daily PnL:", "{:.2f}".format(daily_return), "||   Equity:", "{:.2f}".format(equity_counter))
     # Return the final equity array
     return equity
 
 #  Run the simulation by calling the simulate_equity_curve function
-equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, sudden_error, convex_payoff_lower, convex_payoff_upper, frequency_lower, frequency_upper)
+equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations,
+                               convex_payoff_lower, convex_payoff_upper, frequency_lower, frequency_upper)
 
 #  Plot the equity curve
 plt.plot(equity)
@@ -83,5 +86,7 @@ plt.xlabel("Trade Number")
 plt.ylabel("Equity")
 plt.show()
 
-
+# Generate a random convex payoff rate and frequency
+# convex_payoff = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
+# frequency = np.random.uniform(frequency_lower, frequency_upper)
 

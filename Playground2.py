@@ -3,21 +3,22 @@ import matplotlib.pyplot as plt
 import random
 
 # Define the parameters
-initial_equity = 2770  # initial equity amount of the options trader
+initial_equity = 2700  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.01  # the percentage gain when a trade is successful
-win_rate = 0.5  # the win rate of the trader's trades
-n_simulations = 60  # number of trades to be simulated
+win_pct = 0.04  # the percentage gain when a trade is successful
+win_rate = 0.30  # the win rate of the trader's trades
+n_simulations = 400  # number of trades to be simulated
 sudden_error_upper = 0.05  # the sudden loss upper rate
 sudden_error_lower = 0.03  # the sudden loss  lower rate
-sudden_loss_interval = random.randint(30, 40)  # the sudden loss interval
+sudden_loss_interval = random.randint(10, 40)  # the sudden loss interval
+convex_payoff_upper = 0.20  # upper bound for the random convex payoff
 convex_payoff_lower = 0.05  # lower bound for the random convex payoff
-convex_payoff_upper = 0.10  # upper bound for the random convex payoff
-frequency_lower = 0.2  # lower bound for the random frequency of the convex payoff
-frequency_upper = 0.4  # upper bound for the random frequency of the convex payoff
+sudden_convex_interval = random.randint(30, 40)  # the sudden loss interval
+
 
 # Define the simulation function to calculate the equity curve of the options trader
-def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, convex_payoff_lower, convex_payoff_upper, frequency_lower, frequency_upper):
+def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, convex_payoff_lower,
+                          convex_payoff_upper):
     # Initialize an array to store the equity value at each trade
     equity = np.zeros((n_simulations,))
     # Set the initial equity value
@@ -27,9 +28,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
     # Set the fixed value for commissions
     commissions = -4
 
-
-
-    # Loop through the number of trades to be simulated
+    #  Loop through the number of trades to be simulated
     for i in range(1, n_simulations):
         # Check if the trade was successful
         win = np.random.binomial(1, win_rate, 1)
@@ -50,14 +49,14 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
         equity[i] = equity_counter
 
         # Introduce a random convex payoff with a random frequency
-        if i % np.random.randint(20, 40) == 0:
+        if i % sudden_convex_interval == 0:
             # Generate a random convex payoff rate
             convex_payoff = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
             # Calculate the convex payoff
             convex_payoff_amount = equity_counter * convex_payoff
             equity_counter += convex_payoff_amount
 
-            print(i, ":", "XXXXXXXXXXXXXXXXXXXXX|| Random convex payoff ", "{:.2f}".format(convex_payoff_amount),
+            print(i, ":", "XXXXXXXXXXXXXXXXX|| Random convex payoff ", "{:.2f}".format(convex_payoff_amount),
                   " ({:.2f}%)".format(convex_payoff * 100), " at trade ", i)
 
         # Introduce the sudden loss of a random percentage between 5% and 10% with any desired frequency
@@ -75,9 +74,10 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
     # Return the final equity array
     return equity
 
+
 #  Run the simulation by calling the simulate_equity_curve function
 equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations,
-                               convex_payoff_lower, convex_payoff_upper, frequency_lower, frequency_upper)
+                               convex_payoff_lower, convex_payoff_upper)
 
 #  Plot the equity curve
 plt.plot(equity)
@@ -89,4 +89,3 @@ plt.show()
 # Generate a random convex payoff rate and frequency
 # convex_payoff = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
 # frequency = np.random.uniform(frequency_lower, frequency_upper)
-

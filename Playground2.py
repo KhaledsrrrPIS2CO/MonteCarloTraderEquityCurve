@@ -5,12 +5,12 @@ import random
 # Define the parameters
 initial_equity = 2580  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.0297  # the percentage gain when a trade is successful
-win_rate = 0.36  # the win rate of the trader's trades
+win_pct = 0.01  # the percentage gain when a trade is successful
+win_rate = 0.5  # the win rate of the trader's trades
 n_simulations = 400  # number of trades to be simulated
 
-sudden_error_upper = 0.1  # the sudden loss upper rate
-sudden_error_lower = 0.05  # the sudden loss  lower rate
+sudden_error_upper = 0.05  # the sudden loss upper rate
+sudden_error_lower = 0.03  # the sudden loss  lower rate
 sudden_loss_interval = random.randint(20, 40)  # the sudden loss interval
 
 convex_payoff_upper = 0.15  # upper bound for the random convex payoff
@@ -19,8 +19,7 @@ sudden_convex_interval = random.randint(30, 40)  # the sudden loss interval
 
 
 # Define the simulation function to calculate the equity curve of the options trader
-def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, convex_payoff_lower,
-                          convex_payoff_upper):
+def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations):
     # Initialize an array to store the equity value at each trade
     equity = np.zeros((n_simulations,))
     # Set the initial equity value
@@ -37,7 +36,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
         if win:
             # If the trade was successful, calculate the daily return
             daily_return = equity_counter * win_pct
-            # Add the daily return and commissions to the equity counter
+            # Add  the daily return and commissions to the equity counter
             equity_counter += daily_return
             equity_counter += commissions
         else:
@@ -69,6 +68,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
             sudden_loss = -equity_counter * sudden_loss_pct
             # Add the sudden loss to the equity counter
             equity_counter += sudden_loss
+
             print(i, ":", "|||||||||||||||||||||||||Sudden Loss of ", "{:.2f}".format(sudden_loss),
                   " ({:.2f}%)".format(sudden_loss_pct * 100), " at trade ", i)
 
@@ -78,8 +78,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
 
 
 #  Run the simulation by calling the simulate_equity_curve function
-equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations,
-                               convex_payoff_lower, convex_payoff_upper)
+equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations)
 
 #  Plot the equity curve
 plt.plot(equity)
@@ -88,6 +87,14 @@ plt.xlabel("Trade Number")
 plt.ylabel("$$$")
 plt.show()
 
-# Generate a random convex payoff rate and frequency
-# convex_payoff = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
-# frequency = np.random.uniform(frequency_lower, frequency_upper)
+
+
+
+# Khaled's stats of September
+# Define the parameters
+# initial_equity = 2580  # initial equity amount of the options trader
+# loss_pct = 0.01  # the percentage loss when a trade is not successful
+# win_pct = 0.0297  # the percentage gain when a trade is successful
+# win_rate = 0.36  # the win rate of the trader's trades
+# n_simulations = 400  # number of trades to be simulated
+

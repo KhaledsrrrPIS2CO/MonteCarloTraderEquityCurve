@@ -1,17 +1,19 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-
+# ----->> Khaled's stats of September
 # Define the parameters
-initial_equity = 2700  # initial equity amount of the options trader
+initial_equity = 2580  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.04  # the percentage gain when a trade is successful
-win_rate = 0.30  # the win rate of the trader's trades
+win_pct = 0.0297  # the percentage gain when a trade is successful
+win_rate = 0.36  # the win rate of the trader's trades
 n_simulations = 400  # number of trades to be simulated
-sudden_error_upper = 0.05  # the sudden loss upper rate
-sudden_error_lower = 0.03  # the sudden loss  lower rate
-sudden_loss_interval = random.randint(10, 40)  # the sudden loss interval
-convex_payoff_upper = 0.20  # upper bound for the random convex payoff
+
+sudden_error_upper = 0.1  # the sudden loss upper rate
+sudden_error_lower = 0.05  # the sudden loss  lower rate
+sudden_loss_interval = random.randint(20, 40)  # the sudden loss interval
+
+convex_payoff_upper = 0.15  # upper bound for the random convex payoff
 convex_payoff_lower = 0.05  # lower bound for the random convex payoff
 sudden_convex_interval = random.randint(30, 40)  # the sudden loss interval
 
@@ -83,7 +85,7 @@ equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_si
 plt.plot(equity)
 plt.title("Equity Curve")
 plt.xlabel("Trade Number")
-plt.ylabel("Equity")
+plt.ylabel("$$$")
 plt.show()
 
 # Generate a random convex payoff rate and frequency

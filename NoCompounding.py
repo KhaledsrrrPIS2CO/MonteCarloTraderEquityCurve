@@ -13,12 +13,12 @@ n_simulations = 400
 
 
 # Write the simulation function
-def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations):
+def simulate_equity_curve(initial_equity_loc, loss_pct, win_pct, win_rate, n_simulations):
 
     equity = np.zeros((n_simulations,))
-    equity[0] = initial_equity
-    daily_risk = initial_equity * loss_pct
-    daily_reward = initial_equity * win_pct
+    equity[0] = initial_equity_loc
+    daily_risk = initial_equity_loc * loss_pct
+    daily_reward = initial_equity_loc * win_pct
 
 
     for i in range(1, n_simulations):

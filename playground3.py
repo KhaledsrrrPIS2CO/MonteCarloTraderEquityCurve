@@ -11,6 +11,7 @@ sudden_error = 0.3 # the sudden loss rate for every 75 trades
 
 # Define the simulation function to calculate the equity curve of the options trader
 def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations, sudden_error):
+
 # Initialize an array to store the equity value at each trade
 equity = np.zeros((n_simulations,))
 # Set the initial equity value
@@ -53,7 +54,7 @@ for i in range(1, n_simulations):
         print("|||||||||||||||||||||||||||||||||||||||||||||Sudden Loss of ", "{:.2f}".format(sudden_loss), " at trade ", i)
 
     print("||Daily PnL:", "{:.2f}".format(daily_return), "||   Equity:", "{:.2f}".format(equity_counter))
-# Return the final equity array
+    # Return the final equity array
 return equity
 
 #  Run the simulation by calling the simulate_equity_curve function

@@ -1,29 +1,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
-# ----->> Khaled's stats of September
+# ----->> Khaled's stats of 2023 Week6
 # Define the parameters
-initial_equity = 2580  # initial equity amount of the options trader
+initial_equity = 3000  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.01  # the percentage gain when a trade is successful
-win_rate = 0.5  # the win rate of the trader's trades
-n_simulations = 400  # number of trades to be simulated
+win_pct = 0.0083  # the percentage gain when a trade is successful
+win_rate = 0.57  # the win rate of the trader's trades
+n_simulations = 400 + 1  # number of trades to be simulated
 
-sudden_error_upper = 0.05  # the sudden loss upper rate
-sudden_error_lower = 0.03  # the sudden loss  lower rate
+sudden_error_upper = 0.01  # the sudden loss upper rate
+sudden_error_lower = 0.01  # the sudden loss  lower rate
 sudden_loss_interval = random.randint(20, 40)  # the sudden loss interval
 
-convex_payoff_upper = 0.15  # upper bound for the random convex payoff
-convex_payoff_lower = 0.05  # lower bound for the random convex payoff
+convex_payoff_upper = 0.01  # upper bound for the random convex payoff
+convex_payoff_lower = 0.01  # lower bound for the random convex payoff
 sudden_convex_interval = random.randint(30, 40)  # the sudden loss interval
 
 
 # Define the simulation function to calculate the equity curve of the options trader
 def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations):
     # Initialize an array to store the equity value at each trade
-    equity = np.zeros((n_simulations,))
+    equity_array = np.zeros((n_simulations,))
     # Set the initial equity value
-    equity[0] = initial_equity
+    equity_array[0] = initial_equity
     # Set the initial value for the equity counter
     equity_counter = initial_equity
     # Set the fixed value for commissions
@@ -31,8 +31,12 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
 
     #  Loop through the number of trades to be simulated
     for i in range(1, n_simulations):
-        # Check if the trade was successful
+        # Check if the trade was successful, using binomial distribution takes three arguments:
+        # (n, p, size=None),
+        # n: the number of Bernoulli trials,
+        # p: the probability of success in each trial
         win = np.random.binomial(1, win_rate, 1)
+
         if win:
             # If the trade was successful, calculate the daily return
             daily_return = equity_counter * win_pct
@@ -47,7 +51,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
             equity_counter += commissions
 
         # Store the equity counter value in the equity array
-        equity[i] = equity_counter
+        equity_array[i] = equity_counter
 
         # Introduce a random convex payoff with a random frequency
         if i % sudden_convex_interval == 0:
@@ -73,8 +77,10 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
                   " ({:.2f}%)".format(sudden_loss_pct * 100), " at trade ", i)
 
         print(i, ":", "||Daily PnL:", "{:.2f}".format(daily_return), "||   Equity:", "{:.2f}".format(equity_counter))
+
     # Return the final equity array
-    return equity
+    return equity_array
+
 
 
 #  Run the simulation by calling the simulate_equity_curve function
@@ -86,8 +92,6 @@ plt.title("Equity Curve")
 plt.xlabel("Trade Number")
 plt.ylabel("$$$")
 plt.show()
-
-
 
 
 # Khaled's stats of September

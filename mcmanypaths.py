@@ -5,19 +5,20 @@ import time
 
 # Define the parameters
 start_time = time.time()
-initial_equity = 12000  # initial equity amount of the options trader
+initial_equity = 3000  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.011  # the percentage gain when a trade is successful
-win_rate = 0.39  # the win rate of the trader's trades
-n_simulations = 286 + 1  # number of trades to be simulated
+win_pct = 0.03  # the percentage gain when a trade is successful
+win_rate = 0.36  # the win rate of the trader's trades
+n_simulations = 400  # number of trades to be simulated
+number_of_runs = 1000  # number of runs or nuber of paths
 
+# the sudden loss interval is in the function to generate real random interval
 sudden_error_upper = 0.01  # the sudden loss upper rate
 sudden_error_lower = 0.01  # the sudden loss  lower rate
-# the sudden loss interval is in the function to generate real random interval
 
-convex_payoff_upper = 0.01  # upper bound for the random convex payoff
-convex_payoff_lower = 0.01  # lower bound for the random convex payoff
 # the sudden convex interval is in the function to generate real random interval
+convex_payoff_upper = 0.15  # upper bound for the random convex payoff
+convex_payoff_lower = 0.05  # lower bound for the random convex payoff
 
 
 # Define the simulation function to calculate the equity curve of the options trader
@@ -75,7 +76,7 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
     return equity_array
 
 
-n_runs = 1000000   # number of runs for simulations
+n_runs = number_of_runs   # number of runs for simulations
 simulation_results = []
 
 for i in range(n_runs):
@@ -83,7 +84,7 @@ for i in range(n_runs):
     simulation_results.append(result)
 
 # Plot all the simulations on one graph
-plt.figure(figsize=(10, 8))
+plt.figure(figsize=(7, 7))
 for i in range(n_runs):
     plt.plot(simulation_results[i], color=plt.cm.cool(i / n_runs), label="")
 
@@ -96,10 +97,8 @@ print("Min equity:", round(min_equity, 2), "\nAvg equity: ", round(avg_equity, 2
 print("\nNumber of paths:", n_runs)
 
 
-
-
 # Plot the minimum and maximum equity values
-plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label='Minimum Equity, ')
+plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label='Minimum Equity ')
 plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label='Maximum Equity')
 plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='green', label='Average Equity')
 

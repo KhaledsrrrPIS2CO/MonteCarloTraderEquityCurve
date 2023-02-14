@@ -11,5 +11,6 @@ for i in range(100):
     if i % sudden_convex_interval == 0:
         intervalcounter+= 1
 print("intervalcounter:", intervalcounter)
+print(3499/60)
 
 

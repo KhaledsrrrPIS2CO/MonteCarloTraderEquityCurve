@@ -1,20 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import time
 
 # Define the parameters
-initial_equity = 3000  # initial equity amount of the options trader
+start_time = time.time()
+initial_equity = 12000  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.015  # the percentage gain when a trade is successful
-win_rate = 0.40  # the win rate of the trader's trades
-n_simulations = 400 + 1  # number of trades to be simulated
+win_pct = 0.011  # the percentage gain when a trade is successful
+win_rate = 0.39  # the win rate of the trader's trades
+n_simulations = 286 + 1  # number of trades to be simulated
 
 sudden_error_upper = 0.01  # the sudden loss upper rate
 sudden_error_lower = 0.01  # the sudden loss  lower rate
 # the sudden loss interval is in the function to generate real random interval
 
-convex_payoff_upper = 0.2  # upper bound for the random convex payoff
-convex_payoff_lower = 0.05  # lower bound for the random convex payoff
+convex_payoff_upper = 0.01  # upper bound for the random convex payoff
+convex_payoff_lower = 0.01  # lower bound for the random convex payoff
 # the sudden convex interval is in the function to generate real random interval
 
 
@@ -73,7 +75,7 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
     return equity_array
 
 
-n_runs = 10000   # number of runs for simulations
+n_runs = 1000000   # number of runs for simulations
 simulation_results = []
 
 for i in range(n_runs):
@@ -89,8 +91,12 @@ for i in range(n_runs):
 min_equity = np.min([result[-1] for result in simulation_results])
 max_equity = np.max([result[-1] for result in simulation_results])
 avg_equity = np.average([result[-1] for result in simulation_results])
-print("min_equity:", round(min_equity, 2), "\nMax equity: ", round(max_equity, 2), "\nAverage equity: ",
-      round(avg_equity, 2))
+print("Min equity:", round(min_equity, 2), "\nAvg equity: ", round(avg_equity, 2)
+      , "\nMax equity: ", round(max_equity, 2), )
+print("\nNumber of paths:", n_runs)
+
+
+
 
 # Plot the minimum and maximum equity values
 plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label='Minimum Equity, ')
@@ -104,8 +110,12 @@ plt.ylabel("$$$$$")
 plt.xlabel("Num of simulations")
 plt.show()
 
+# Time needed for the whole simulation
+elapsed_time = time.time() - start_time
+rounded_time = round(elapsed_time, 2)
+print("Time elapsed: ", rounded_time, "seconds")
 
-
+exit()
 
 
 

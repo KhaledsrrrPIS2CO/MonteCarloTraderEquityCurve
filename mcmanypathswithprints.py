@@ -59,6 +59,9 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
             convex_payoff_amount = equity_counter * convex_payoff
             equity_counter += convex_payoff_amount
 
+            # print(i, ":", "CCCCCCCCCCCCCCCCC|| Random convex payoff ", "{:.2f}".format(convex_payoff_amount),
+            #       " ({:.2f}%)".format(convex_payoff * 100), " at trade ", i)
+
         # Introduce the sudden loss of a random percentage between 5% and 10% with any desired frequency
         if i % sudden_loss_interval == 0:
             # Generate a random percentage loss between 5% and 10%
@@ -68,7 +71,12 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
             # Add the sudden loss to the equity counter
             equity_counter += sudden_loss
 
+            # print(i, ":", "LLLLLLLLLLLLLLLLLL||Sudden Loss of ", "{:.2f}".format(sudden_loss),
+            #       " ({:.2f}%)".format(sudden_loss_pct * 100), " at trade ", i)
+
+        # print(i, ":", "||Daily PnL:", "{:.2f}".format(daily_return), "||   Equity:", "{:.2f}".format(equity_counter))
         if equity_counter <= 0:
+            # print("GAME OVER,  U R bust in less than ", i, "trades")
             break
 
     # Return the final equity array
@@ -85,7 +93,7 @@ for i in range(n_runs):
 # Plot all the simulations on one graph
 plt.figure(figsize=(10, 8))
 for i in range(n_runs):
-    plt.plot(simulation_results[i], color=plt.cm.cool(i / n_runs), label="")
+    plt.plot(simulation_results[i], color=plt.cm.cool(i / n_runs), label="")  #
 plt.legend()
 plt.title("Monte Carlo Simulation")
 plt.ylabel("$$$$$")

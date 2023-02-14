@@ -29,8 +29,6 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
 
     #  Loop through the number of trades to be simulated
     for i in range(1, n_simulations_loc):
-        # Check if the trade was successful, using binomial distribution takes three arguments:
-        # (n, p, size=None),
         # n: the number of Bernoulli trials,
         # p: the probability of success in each trial
         win = np.random.binomial(1, win_rate_loc, 1)
@@ -75,7 +73,7 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
     return equity_array
 
 
-n_runs = 100   # number of runs for simulations
+n_runs = 10000   # number of runs for simulations
 simulation_results = []
 
 for i in range(n_runs):
@@ -86,14 +84,26 @@ for i in range(n_runs):
 plt.figure(figsize=(10, 8))
 for i in range(n_runs):
     plt.plot(simulation_results[i], color=plt.cm.cool(i / n_runs), label="")
+
+# Calculate the minimum and maximum equity values across all simulations
+min_equity = np.min([result[-1] for result in simulation_results])
+max_equity = np.max([result[-1] for result in simulation_results])
+avg_equity = np.average([result[-1] for result in simulation_results])
+print("min_equity:", round(min_equity, 2), "\nMax equity: ", round(max_equity, 2), "\nAverage equity: ",
+      round(avg_equity, 2))
+
+# Plot the minimum and maximum equity values
+plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label='Minimum Equity, ')
+plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label='Maximum Equity')
+plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='green', label='Average Equity')
+
+
 plt.legend()
 plt.title("Monte Carlo Simulation")
 plt.ylabel("$$$$$")
 plt.xlabel("Num of simulations")
 plt.show()
 
-#  Run the simulation by calling the simulate_equity_curve function
-equity = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations)
 
 
 

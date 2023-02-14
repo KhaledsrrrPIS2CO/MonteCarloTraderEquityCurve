@@ -1,10 +1,15 @@
-import matplotlib.pyplot as plt
+import random
+sudden_convex_interval = random.randint(20, 40)
 
-x = [1, 2, 3, 4, 5]
-y = [2, 4, 6, 8, 10]
 
-plt.plot(x, y, label='Line 1')
+for i in range(100):
+    test = random.randint(20, 40)
+    intervalcounter = 0
+    print("the test of randomint btw 20 40 is::", test)
 
-plt.legend()
+    # Introduce a random convex payoff with a random frequency
+    if i % sudden_convex_interval == 0:
+        intervalcounter+= 1
+print("intervalcounter:", intervalcounter)
 
-plt.show()
+

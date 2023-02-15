@@ -10,7 +10,7 @@ loss_pct = 0.01  # the percentage loss when a trade is not successful
 win_pct = 0.03  # the percentage gain when a trade is successful
 win_rate = 0.36  # the win rate of the trader's trades
 n_simulations = 400  # number of trades to be simulated
-number_of_runs = 100000  # number of runs or nuber of paths
+number_of_runs = 500  # number of runs or nuber of paths
 
 # the sudden loss interval is in the function to generate real random interval
 sudden_error_upper = 0.01  # the sudden loss upper rate

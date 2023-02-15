@@ -1,16 +1,18 @@
-import random
-sudden_convex_interval = random.randint(20, 40)
+import matplotlib.pyplot as plt
 
+# create some sample data
+x_values = [1, 2, 3, 4, 5]
+y_values = [3, 1, 4, 1, 5]
 
-for i in range(100):
-    test = random.randint(20, 40)
-    intervalcounter = 0
-    print("the test of randomint btw 20 40 is::", test)
+# create the line plot
+plt.plot(x_values, y_values)
 
-    # Introduce a random convex payoff with a random frequency
-    if i % sudden_convex_interval == 0:
-        intervalcounter+= 1
-print("intervalcounter:", intervalcounter)
-print(3499/60)
+# find the minimum y value and its index
+min_y_value = min(y_values)
+min_y_index = y_values.index(min_y_value)
 
+# add the minimum y value as text on the plot
+plt.text(x_values[min_y_index], min_y_value, str(min_y_value))
 
+# display the plot
+plt.show()

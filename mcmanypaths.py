@@ -10,7 +10,7 @@ loss_pct = 0.01  # the percentage loss when a trade is not successful
 win_pct = 0.03  # the percentage gain when a trade is successful
 win_rate = 0.36  # the win rate of the trader's trades
 n_simulations = 400  # number of trades to be simulated
-number_of_runs = 1000  # number of runs or nuber of paths
+number_of_runs = 100000  # number of runs or nuber of paths
 
 # the sudden loss interval is in the function to generate real random interval
 sudden_error_upper = 0.01  # the sudden loss upper rate
@@ -18,7 +18,7 @@ sudden_error_lower = 0.01  # the sudden loss  lower rate
 
 # the sudden convex interval is in the function to generate real random interval
 convex_payoff_upper = 0.15  # upper bound for the random convex payoff
-convex_payoff_lower = 0.05  # lower bound for the random convex payoff
+convex_payoff_lower = 0.04  # lower bound for the random convex payoff
 
 
 # Define the simulation function to calculate the equity curve of the options trader
@@ -96,11 +96,16 @@ print("Min equity:", round(min_equity, 2), "\nAvg equity: ", round(avg_equity, 2
       , "\nMax equity: ", round(max_equity, 2), )
 print("\nNumber of paths:", n_runs)
 
-
 # Plot the minimum and maximum equity values
-plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label='Minimum Equity ')
-plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label='Maximum Equity')
-plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='green', label='Average Equity')
+plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label="min")
+plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label="max")
+plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='blue', label="avg")
+
+# Add text label for minimum equity value
+plt.text(0, min_equity, f'${min_equity:.0f}', fontsize="12")
+plt.text(0, max_equity, f'${max_equity:.0f}', fontsize="12")
+plt.text(0, avg_equity, f'${avg_equity:.0f}', fontsize="12")
+
 
 
 plt.legend()
@@ -108,6 +113,18 @@ plt.title("Monte Carlo Simulation")
 plt.ylabel("$$$$$")
 plt.xlabel("Num of simulations")
 plt.show()
+
+# # Plot the minimum and maximum equity values
+# plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label='Minimum Equity ')
+# plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label='Maximum Equity')
+# plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='green', label='Average Equity')
+#
+#
+# plt.legend()
+# plt.title("Monte Carlo Simulation")
+# plt.ylabel("$$$$$")
+# plt.xlabel("Num of simulations")
+# plt.show()
 
 # Time needed for the whole simulation
 elapsed_time = time.time() - start_time

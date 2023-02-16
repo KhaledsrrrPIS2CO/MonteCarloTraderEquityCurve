@@ -7,13 +7,13 @@ import time
 start_time = time.time()
 initial_equity = 3000  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.03  # the percentage gain when a trade is successful
-win_rate = 0.36  # the win rate of the trader's trades
-n_simulations = 400  # number of trades to be simulated
-number_of_runs = 500  # number of runs or nuber of paths
+win_pct = 0.01  # the percentage gain when a trade is successful
+win_rate = 0.5  # the win rate of the trader's trades
+n_simulations = 4000  # number of trades to be simulated
+number_of_runs = 3  # number of runs or nuber of paths
 
 # the sudden loss interval is in the function to generate real random interval
-sudden_error_upper = 0.01  # the sudden loss upper rate
+sudden_error_upper = 0.15  # the sudden loss upper rate
 sudden_error_lower = 0.01  # the sudden loss  lower rate
 
 # the sudden convex interval is in the function to generate real random interval
@@ -97,9 +97,9 @@ print("Min equity:", round(min_equity, 2), "\nAvg equity: ", round(avg_equity, 2
 print("\nNumber of paths:", n_runs)
 
 # Plot the minimum and maximum equity values
-plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label="min")
 plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label="max")
 plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='blue', label="avg")
+plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label="min")
 
 # Add text label for minimum equity value
 plt.text(0, min_equity, f'${min_equity:.0f}', fontsize="12")
@@ -114,17 +114,7 @@ plt.ylabel("$$$$$")
 plt.xlabel("Num of simulations")
 plt.show()
 
-# # Plot the minimum and maximum equity values
-# plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label='Minimum Equity ')
-# plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label='Maximum Equity')
-# plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='green', label='Average Equity')
-#
-#
-# plt.legend()
-# plt.title("Monte Carlo Simulation")
-# plt.ylabel("$$$$$")
-# plt.xlabel("Num of simulations")
-# plt.show()
+# here might be the events probability
 
 # Time needed for the whole simulation
 elapsed_time = time.time() - start_time

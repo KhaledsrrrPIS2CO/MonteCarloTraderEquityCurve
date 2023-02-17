@@ -5,20 +5,26 @@ import time
 
 # Define the parameters
 start_time = time.time()
-initial_equity = 3000  # initial equity amount of the options trader
-loss_pct = 0.01  # the percentage loss when a trade is not successful
-win_pct = 0.01  # the percentage gain when a trade is successful
-win_rate = 0.5  # the win rate of the trader's trades
-n_simulations = 4000  # number of trades to be simulated
-number_of_runs = 3  # number of runs or nuber of paths
+# initial equity amount of the options trader
+initial_equity = 3000
+# the percentage loss when a trade is not successful
+loss_pct = 0.01
+# the percentage gain when a trade is successful
+win_pct = 0.01
+# the win rate of the trader's trades
+win_rate = 0.42
+# number of trades to be simulated
+n_simulations = 400
+# number of runs or nuber of paths
+number_of_runs = 100000
 
 # the sudden loss interval is in the function to generate real random interval
-sudden_error_upper = 0.15  # the sudden loss upper rate
+sudden_error_upper = 0.01  # the sudden loss upper rate
 sudden_error_lower = 0.01  # the sudden loss  lower rate
 
 # the sudden convex interval is in the function to generate real random interval
-convex_payoff_upper = 0.15  # upper bound for the random convex payoff
-convex_payoff_lower = 0.04  # lower bound for the random convex payoff
+convex_payoff_upper = 0.01  # upper bound for the random convex payoff
+convex_payoff_lower = 0.01  # lower bound for the random convex payoff
 
 
 # Define the simulation function to calculate the equity curve of the options trader
@@ -101,22 +107,26 @@ plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label="m
 plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='blue', label="avg")
 plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label="min")
 
-# Add text label for minimum equity value
+# Add text label for max, avg, min
 plt.text(0, min_equity, f'${min_equity:.0f}', fontsize="12")
 plt.text(0, max_equity, f'${max_equity:.0f}', fontsize="12")
 plt.text(0, avg_equity, f'${avg_equity:.0f}', fontsize="12")
 
+# P of being > or < avg
+n_above_avg = np.count_nonzero([result[-1] > avg_equity for result in simulation_results])
+p_above_avg = round(n_above_avg / n_runs * 100, 2)
+p_below_avg = 100 - p_above_avg
+print("Above avg equity probability:", p_above_avg, "%")
+print("Below avg equity probability:", p_below_avg, "%")
 
-
+# plot
 plt.legend()
 plt.title("Monte Carlo Simulation")
 plt.ylabel("$$$$$")
 plt.xlabel("Num of simulations")
 plt.show()
 
-# here might be the events probability
-
-# Time needed for the whole simulation
+# Time needed for the whole MC simulation
 elapsed_time = time.time() - start_time
 rounded_time = round(elapsed_time, 2)
 print("Time elapsed: ", rounded_time, "seconds")

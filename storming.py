@@ -25,7 +25,7 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
     equity_counter = initial_equity_loc  # Set the initial value for the equity counter
     commissions = -4  # Set the fixed value for commissions
     sudden_loss_interval = random.randint(20, 40)  # the sudden loss interval
-    sudden_convex_interval = random.randint(40,80 )  # the sudden convex interval
+    sudden_convex_interval = random.randint(40, 80)  # the sudden convex interval
     convex_count = 0
 
     #  Loop through the number of trades to be simulated
@@ -72,9 +72,8 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
             sudden_loss = -equity_counter * sudden_loss_pct
             # Add the sudden loss to the equity counter
             equity_counter += sudden_loss
-
-            # print(i, ":", "LLLLLLLLLLLLLLLLLL||Sudden Loss of ", "{:.2f}".format(sudden_loss),
-            #       " ({:.2f}%)".format(sudden_loss_pct * 100), " at trade ", i)
+            print(i, ":", "LLLLLLLLLLLLLLLLLL||Sudden Loss of ", "{:.2f}".format(sudden_loss),
+                   " ({:.2f}%)".format(sudden_loss_pct * 100), " at trade ", i)
 
         # print(i, ":", "||Daily PnL:", "{:.2f}".format(daily_return), "||   Equity:", "{:.2f}".format(equity_counter))
         if equity_counter <= 0:

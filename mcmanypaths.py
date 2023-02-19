@@ -10,9 +10,9 @@ initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
-win_pct = 0.03
+win_pct = 0.01
 # the win rate of the trader's trades
-win_rate = 0.41
+win_rate = 0.5
 # number of trades to be simulated
 n_simulations = 400
 # number of runs or nuber of paths
@@ -22,8 +22,8 @@ number_of_runs = 100000
 sudden_error_upper = 0.01  # the sudden loss upper rate
 sudden_error_lower = 0.01  # the sudden loss  lower rate
 # the sudden convex interval is in the function to generate real random interval
-convex_payoff_upper = 0.15  # upper bound for the random convex payoff
-convex_payoff_lower = 0.05  # lower bound for the random convex payoff
+convex_payoff_upper = 0.01  # upper bound for the random convex payoff
+convex_payoff_lower = 0.01  # lower bound for the random convex payoff
 
 
 # Define the simulation function to calculate the equity curve of the options trader
@@ -88,6 +88,7 @@ for i in range(n_runs):
     result = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations)
     simulation_results.append(result)
 
+
 # Plot all the simulations on one graph
 plt.figure(figsize=(7, 7))
 for i in range(n_runs):
@@ -106,6 +107,7 @@ plt.plot([0, n_simulations-1], [max_equity, max_equity], color='green', label="m
 plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='blue', label="avg")
 plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label="min")
 
+
 # Add text label for max, avg, min
 plt.text(0, min_equity, f'${min_equity:.0f}', fontsize="12")
 plt.text(0, max_equity, f'${max_equity:.0f}', fontsize="12")
@@ -118,6 +120,14 @@ p_below_avg = 100 - p_above_avg
 print("Above avg equity probability:", p_above_avg, "%")
 print("Below avg equity probability:", p_below_avg, "%")
 
+# std from average
+# Calculate the variation from the average equity for each simulation
+variation_from_avg = [result[-1] - avg_equity for result in simulation_results]
+# Calculate the standard deviation of the variation from the average equity
+std_dev = np.std(variation_from_avg)
+print("Standard deviation of variation from average equity:", std_dev)
+
+
 # plot
 plt.legend()
 plt.title("Monte Carlo Simulation")
@@ -129,6 +139,7 @@ plt.show()
 elapsed_time = time.time() - start_time
 rounded_time = round(elapsed_time, 2)
 print("Time elapsed: ", rounded_time, "seconds")
+
 
 exit()
 

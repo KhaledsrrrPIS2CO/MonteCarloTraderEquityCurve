@@ -10,13 +10,13 @@ initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
-win_pct = 0.01
+win_pct = 0.0095
 # the win rate of the trader's trades
-win_rate = 0.5
+win_rate = 0.42
 # number of trades to be simulated
 n_simulations = 400
 # number of runs or nuber of paths
-number_of_runs = 100000
+number_of_runs = 500000
 
 # the sudden loss interval is in the function to generate real random interval
 sudden_error_upper = 0.01  # the sudden loss upper rate
@@ -80,7 +80,6 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
     # Return the final equity array
     return equity_array
 
-
 n_runs = number_of_runs   # number of runs for simulations
 simulation_results = []
 
@@ -108,28 +107,42 @@ plt.plot([0, n_simulations-1], [avg_equity, avg_equity], color='blue', label="av
 plt.plot([0, n_simulations-1], [min_equity, min_equity], color='red', label="min")
 
 
-# Add text label for max, avg, min
-plt.text(0, min_equity, f'${min_equity:.0f}', fontsize="12")
-plt.text(0, max_equity, f'${max_equity:.0f}', fontsize="12")
-plt.text(0, avg_equity, f'${avg_equity:.0f}', fontsize="12")
+# Add $$$ label for max, avg, min
+plt.text(0, min_equity, f'${min_equity:.0f}', fontsize="13")
+plt.text(0, max_equity, f'${max_equity:.0f}', fontsize="13")
+plt.text(0, avg_equity, f'${avg_equity:.0f}', fontsize="13")
 
 # probability of being above or below average equity
 n_above_avg = np.count_nonzero([result[-1] > avg_equity for result in simulation_results])
 p_above_avg = round(n_above_avg / n_runs * 100, 2)
 p_below_avg = 100 - p_above_avg
-print("Above avg equity probability:", p_above_avg, "%")
-print("Below avg equity probability:", p_below_avg, "%")
+print("Probability of above avg equity :", p_above_avg, "%")
+print("Probability of below avg equity :", p_below_avg, "%")
 
-# std from average
-# Calculate the variation from the average equity for each simulation
+
+#  The probability of a trader doubling his initial equity after number of simulations
+n_doubled = 0
+
+for i in range(n_runs):
+    result = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations)
+    simulation_results.append(result)
+    final_equity = result[-1]
+    if final_equity >= 2 * initial_equity:
+        n_doubled += 1
+
+# Calculate the probability of doubling initial equity
+p_doubled = (n_doubled / n_runs) * 100
+print("Probability of doubling initial equity:", p_doubled, "%")
+
+
+# Std from average. Calculate the variation from the average equity for each simulation
 variation_from_avg = [result[-1] - avg_equity for result in simulation_results]
 # Calculate the standard deviation of the variation from the average equity
 std_dev = np.std(variation_from_avg)
-print("Standard deviation of variation from average equity:", std_dev)
-
+std_dev_round = round(std_dev, 2)
+print("Standard deviation of variation from average equity:", std_dev_round)
 
 # plot
-plt.legend()
 plt.title("Monte Carlo Simulation")
 plt.ylabel("$$$$$")
 plt.xlabel("Num of simulations")

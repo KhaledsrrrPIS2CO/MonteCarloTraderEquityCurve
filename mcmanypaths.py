@@ -6,17 +6,17 @@ import time
 # Defining parameters
 start_time = time.time()
 # initial equity amount of the options trader
-initial_equity = 100000
+initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
 win_pct = 0.01
 # the win rate of the trader's trades
-win_rate = 0.5
+win_rate = 0.7
 # number of trades to be simulated
-n_simulations = 100000
-# number of runs or nuber of paths
-number_of_runs = 1000
+n_simulations = 1000
+# number of runs or number of paths
+number_of_runs = 40000
 
 # Sudden loss interval is in the function to generate real random interval
 sudden_error_upper = 0.01  # the sudden loss upper rate

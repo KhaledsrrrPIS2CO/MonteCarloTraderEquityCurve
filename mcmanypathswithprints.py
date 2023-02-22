@@ -6,7 +6,7 @@ import random
 initial_equity = 3000  # initial equity amount of the options trader
 loss_pct = 0.01  # the percentage loss when a trade is not successful
 win_pct = 0.015  # the percentage gain when a trade is successful
-win_rate = 0.40  # the win rate of the trader's trades
+win_rate = 0.55  # the win rate of the trader's trades
 n_simulations = 400 + 1  # number of trades to be simulated
 
 sudden_error_upper = 0.01  # the sudden loss upper rate

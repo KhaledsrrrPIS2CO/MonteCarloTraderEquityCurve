@@ -37,7 +37,6 @@ def get_historical_volatility(ticker, lookback_period):
 
     # Calculate the historical volatility
     historical_volatility = daily_returns.std() * np.sqrt(252)
-
     return historical_volatility
 
 
@@ -56,7 +55,7 @@ def is_option_cheap(ticker, expiration, option_type, strike, lookback_period):
 
 
 # Example usage
-ticker = 'AAPL'
+ticker = 'SPY'
 expiration = '2023-03-17'
 option_type = 'call'
 strike = 150

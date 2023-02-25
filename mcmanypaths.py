@@ -14,9 +14,9 @@ win_pct = 0.0103
 # the win rate of the trader's trades
 win_rate = 0.433
 # number of trades to be simulated
-n_simulations = 400 * 2
+n_simulations = 400
 # number of runs or number of paths/traders
-number_of_runs = 100000
+number_of_runs = 1000
 
 # Sudden loss interval is in the function to generate real random interval
 sudden_error_upper = 0.01  # the sudden loss upper rate
@@ -152,7 +152,7 @@ plt.show()
 # Time needed for the whole MC simulation
 elapsed_time = time.time() - start_time
 rounded_time = round(elapsed_time, 2)/60
-print("Time elapsed: ", rounded_time, "minutes")
+print("\nTime elapsed: ", rounded_time, "minutes")
 
 exit()
 

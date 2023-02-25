@@ -10,36 +10,43 @@ initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
-win_pct = 0.0103
+win_pct = 0.013
 # the win rate of the trader's trades
-win_rate = 0.433
+win_rate = 0.5
 # number of trades to be simulated
-n_simulations = 400
+n_simulations = 900
 # number of runs or number of paths/traders
-number_of_runs = 1000
+number_of_runs = 10000
 
-# Sudden loss interval is in the function to generate real random interval
-sudden_error_upper = 0.01  # the sudden loss upper rate
-sudden_error_lower = 0.01  # the sudden loss  lower rate
-# Sudden convex interval is in the function to generate real random interval
+# error parameters
+sudden_error_interval_lower = 40  # the sudden convex interval lower
+sudden_error_interval_upper = 80  # the sudden convex interval upper
+sudden_error_upper = 0.14  # the sudden loss upper rate
+sudden_error_lower = 0.014  # the sudden loss  lower rate
+
+#  convex parameters
+sudden_convex_interval_lower = 40  # the sudden convex interval lower
+sudden_convex_interval_upper = 80  # the sudden convex interval upper
 convex_payoff_upper = 0.01  # upper bound for the random convex payoff
 convex_payoff_lower = 0.01  # lower bound for the random convex payoff
 
 
 # Defining the simulation function
-def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rate_loc, n_simulations_loc):
-    equity_array = np.zeros((n_simulations_loc,))  # Initialize an array to store the equity value at each trade
-    equity_array[0] = initial_equity_loc  # Set the initial equity value
-    equity_counter = initial_equity_loc  # Set the initial value for the equity counter
+def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations):
+    equity_array = np.zeros(n_simulations)  # Initialize an array to store the equity value at each trade
+    equity_array[0] = initial_equity  # Set the initial equity value
+    equity_counter = initial_equity  # Set the initial value for the equity counter
     commissions = -4  # Set the fixed value for commissions
-    sudden_loss_interval = random.randint(20, 40)  # the sudden loss interval
-    sudden_convex_interval = random.randint(40, 80)  # the sudden convex interval
+    sudden_loss_interval = random.randint(
+        sudden_error_interval_lower, sudden_error_interval_upper)  # the sudden loss interval
+    sudden_convex_interval = random.randint(
+        sudden_convex_interval_lower, sudden_convex_interval_upper)  # the sudden convex interval
 
     #  Loop through the number of trades to be simulated
-    for i in range(1, n_simulations_loc):
+    for i in range(1, n_simulations):
         # n: the number of Bernoulli trials,
         # p: the probability of success in each trial
-        win = np.random.binomial(1, win_rate_loc, 1)
+        win = np.random.binomial(1, win_rate, 1)
 
         if win:
             # Calculate the daily return for a successful trade
@@ -58,10 +65,10 @@ def simulate_equity_curve(initial_equity_loc, loss_pct_loc, win_pct_loc, win_rat
         # Introduce a random convex payoff with a random frequency
         if i % sudden_convex_interval == 0:
             # Generate a random convex payoff rate
-            convex_payoff = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
+            convex_payoff_pct = np.random.uniform(convex_payoff_lower, convex_payoff_upper)
             # Calculate and add the convex payoff
-            convex_payoff_amount = equity_counter * convex_payoff
-            # Add the convex payoff  to the equity counter
+            convex_payoff_amount = equity_counter * convex_payoff_pct
+            # Add the convex payoff  to the equity
             equity_counter += convex_payoff_amount
 
         # Introduce the sudden loss of a random percentage between 5% and 10% with any desired frequency
@@ -122,7 +129,7 @@ print("Probability of above avg equity :", p_above_avg, "%")
 print("Probability of below avg equity :", p_below_avg, "%")
 
 
-#  The probability of a trader doubling his initial equity after number of simulations
+#  The probability of a trader doubling their initial equity after number of simulations
 n_doubled = 0
 for i in range(n_runs):
     result = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations)

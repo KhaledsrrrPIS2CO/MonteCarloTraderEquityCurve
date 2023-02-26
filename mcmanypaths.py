@@ -37,7 +37,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
     equity_array[0] = initial_equity  # Set the initial equity value
     equity_counter = initial_equity  # Set the initial value for the equity counter
     commissions = -4  # Set the fixed value for commissions
-    sudden_loss_interval = random.randint(
+    sudden_error_interval = random.randint(
         sudden_error_interval_lower, sudden_error_interval_upper)  # the sudden loss interval
     sudden_convex_interval = random.randint(
         sudden_convex_interval_lower, sudden_convex_interval_upper)  # the sudden convex interval
@@ -72,7 +72,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
             equity_counter += convex_payoff_amount
 
         # Introduce the sudden loss of a random percentage between 5% and 10% with any desired frequency
-        if i % sudden_loss_interval == 0:
+        if i % sudden_error_interval == 0:
             # Generate a random percentage loss between 5% and 10%
             sudden_loss_pct = np.random.uniform(sudden_error_upper, sudden_error_lower)
             # Calculate the sudden loss

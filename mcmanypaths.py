@@ -10,13 +10,13 @@ initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
-win_pct = 0.013
+win_pct = 0.01
 # the win rate of the trader's trades
-win_rate = 0.5
+win_rate = 0.41
 # number of trades to be simulated
-n_simulations = 900
+n_simulations = 800
 # number of runs or number of paths/traders
-number_of_runs = 10000
+number_of_runs = 20000
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower
@@ -44,7 +44,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
 
     #  Loop through the number of trades to be simulated
     for i in range(1, n_simulations):
-        # n: the number of Bernoulli trials,
+        # n: the number of Bernoulli trials
         # p: the probability of success in each trial
         win = np.random.binomial(1, win_rate, 1)
 

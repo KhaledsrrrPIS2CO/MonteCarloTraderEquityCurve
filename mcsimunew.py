@@ -12,7 +12,7 @@ win_rate = 0.5
 win_pct = 0.01
 loss_pct = 0.005
 n_simulations = 400
-n_runs = 1000
+num_of_runs = 1000
 
 sudden_error_interval_lower = random.randint(40)
 sudden_error_interval_upper = random.randint(80)
@@ -57,6 +57,12 @@ def simulate_equity_curve(initial_equity, win_rate, win_pct, loss_pct, n_simulat
         if equity_counter <= 0:
             break
         return equity_array
+
+
+n_runs = num_of_runs
+simulations_results = []
+
+
 
 
 

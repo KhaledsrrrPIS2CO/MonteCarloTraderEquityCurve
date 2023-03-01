@@ -10,19 +10,19 @@ initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
-win_pct = 0.01
+win_pct = 0.011
 # the win rate of the trader's trades
-win_rate = 0.41
+win_rate = 0.51
 # number of trades to be simulated
-n_simulations = 800
+n_simulations = 100000
 # number of runs or number of paths/traders
-number_of_runs = 20000
+number_of_runs = 20001
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower
 sudden_error_interval_upper = 80  # the sudden convex interval upper
-sudden_error_upper = 0.14  # the sudden loss upper rate
-sudden_error_lower = 0.014  # the sudden loss  lower rate
+sudden_error_upper = 0.01  # the sudden loss upper rate
+sudden_error_lower = 0.01  # the sudden loss  lower rate
 
 #  convex parameters
 sudden_convex_interval_lower = 40  # the sudden convex interval lower

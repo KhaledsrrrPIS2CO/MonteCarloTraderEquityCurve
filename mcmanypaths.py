@@ -10,13 +10,13 @@ initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
-win_pct = 0.011
+win_pct = 0.0116
 # the win rate of the trader's trades
-win_rate = 0.51
+win_rate = 0.45
 # number of trades to be simulated
-n_simulations = 100000
+n_simulations = 40
 # number of runs or number of paths/traders
-number_of_runs = 20001
+number_of_runs = 20000
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower

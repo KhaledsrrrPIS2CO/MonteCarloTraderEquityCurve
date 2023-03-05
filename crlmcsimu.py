@@ -2,7 +2,7 @@ import requests
 import random
 import matplotlib.pyplot as plt
 
-player_tags = ["%23QCR929GGQ", "%23QQCJPVVU0"]
+player_tags = ["%23L9V99GQLL", "%23QQCJPVVU0"]
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
           '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
           'YzI5ZjJhOSIsImlhdCI6MTY3NzYxMjc2NSwic3ViIjoiZGV2ZWxvcGVyLzc3YWQ4NGY3LTFjNzItNjMwOC0yY2Y3LTliOGRkN2E3OTYw' \
@@ -28,13 +28,22 @@ for tag in player_tags:
         wins = data['wins']
         losses = data['losses']
         battle_count = data['battleCount']
-        win_rate = wins / battle_count * 100
+        sum_wins_losses = wins + losses
+        win_rate = wins / sum_wins_losses * 100
+        sum_wins_losses = wins + losses
         print(f"Player name: {player_name}")
-        print(f"Player wins: {wins}")
-        print(f"Player losses: {losses}")
+        print(f"Wins: {wins}")
+        print(f"Losses: {losses}")
+        print(f"Total games: {battle_count} ")
+        print("Total games minus sum of wins & losses: ", battle_count - sum_wins_losses)
+        print("Difference between total games &  sum of wins and losses: ",
+              round((battle_count - sum_wins_losses) / battle_count, 2) * 100, "%")
         print(f"Win rate: {win_rate:.2f}%")
         print("Loss rate:", round(100-win_rate, 2), "%")
-        print(f"The player has played {battle_count} games.")
+        real_win_rate = round(wins/sum_wins_losses * 100, 2)
+        print("raw win rate:", round(wins/battle_count*100, 2))
+        print("raw loss rate:", round(100-round(wins/battle_count*100, 2)))
+
         print()
         players_names.append(player_name)
         players_win_rate.append(win_rate / 100)
@@ -102,3 +111,5 @@ exit()
 #           'ZCIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5n' \
 #           'In0seyJjaWRycyI6WyIyLjIwNS4xMS4yNDUiXSwidHlwZSI6ImNsaWVudCJ9XX0.7DuDrCFsJj-6gGj15I0hW6CsT2XX7tN5GVbphfT' \
 #           'YwldBk7aDqs9c-JZHDVcWSfivZt9TJ9AaPGSHegDDrj68nw'
+# Sha: L9V99GQLL
+# ME: QCR929GGQ

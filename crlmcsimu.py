@@ -2,7 +2,7 @@ import requests
 import numpy as np
 import matplotlib.pyplot as plt
 
-player_tags = ["%23QQCJPVVU0", "%23L9V99GQLL"]
+player_tags = ["%23QCR929GGQ", "%232LL288R9Y", ]
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
            '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
            'YzI5ZjJhOSIsImlhdCI6MTY3NzYxMjc2NSwic3ViIjoiZGV2ZWxvcGVyLzc3YWQ4NGY3LTFjNzItNjMwOC0yY2Y3LTliOGRkN2E3OTYw' \
@@ -36,7 +36,7 @@ for tag in player_tags:
         print(f"Total games: {battle_count} ")
         print("Sum of wins & losses:", sum_wins_losses)
         print("Time played: ~", round((battle_count*3)/60, 2), "h or", round((((battle_count*3)/60)/24), 2), "d")
-        print("Total games minus sum of wins & losses: ", battle_count - sum_wins_losses, "or",
+        print("Total games minus sum of wins & losses: ", battle_count - sum_wins_losses, "or discrepancy of:",
               round((battle_count - sum_wins_losses) / battle_count, 2) * 100, "%")
         print(f"Win rate: {win_rate:.2f}%")
         print("Loss rate:", round(100 - win_rate, 2), "%")
@@ -71,7 +71,7 @@ p1_prob = p1_adjusted_future_win_rate / 100
 p2_prob = p2_adjusted_future_win_rate / 100
 
 # Set the number of games to simulate
-num_games = 1000000
+num_games = 100000
 
 # Initialize counters for each player's wins
 p1_wins = 0

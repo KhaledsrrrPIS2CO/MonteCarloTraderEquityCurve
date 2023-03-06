@@ -1,9 +1,8 @@
 import requests
 import numpy as np
-import random
 import matplotlib.pyplot as plt
 
-player_tags = ["%23R09228V", "%23G9YV9GR8R"]
+player_tags = ["%23QQCJPVVU0", "%23L9V99GQLL"]
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
            '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
            'YzI5ZjJhOSIsImlhdCI6MTY3NzYxMjc2NSwic3ViIjoiZGV2ZWxvcGVyLzc3YWQ4NGY3LTFjNzItNjMwOC0yY2Y3LTliOGRkN2E3OTYw' \
@@ -35,6 +34,8 @@ for tag in player_tags:
         print(f"Wins: {wins}")
         print(f"Losses: {losses}")
         print(f"Total games: {battle_count} ")
+        print("Sum of wins & losses:", sum_wins_losses)
+        print("Time played: ~", round((battle_count*3)/60, 2), "h or", round((((battle_count*3)/60)/24), 2), "d")
         print("Total games minus sum of wins & losses: ", battle_count - sum_wins_losses, "or",
               round((battle_count - sum_wins_losses) / battle_count, 2) * 100, "%")
         print(f"Win rate: {win_rate:.2f}%")
@@ -64,38 +65,37 @@ print(f"Adjusted future potential win rate of player one, {players_names[0]}: {p
 print(f"Adjusted future potential win rate of player two, {players_names[1]}: {p2_adjusted_future_win_rate:.2f}%")
 print("\n")
 
-n_simulations = 10000
+# Monte Carlo simulation
+# Set the win probabilities for each player
+p1_prob = p1_adjusted_future_win_rate / 100
+p2_prob = p2_adjusted_future_win_rate / 100
+
+# Set the number of games to simulate
+num_games = 1000000
+
+# Initialize counters for each player's wins
 p1_wins = 0
 p2_wins = 0
 
-for i in range(n_simulations):
-    p1_win_prob = p1_adjusted_future_win_rate / 100
-    p2_win_prob = p2_adjusted_future_win_rate / 100
-    p1_win = np.random.binomial(1, p1_win_prob)
-    p2_win = np.random.binomial(1, p2_win_prob)
-
-    if p1_win == 1 and p2_win == 0:
+# Play the games and update the win counters
+for i in range(num_games):
+    # Simulate the outcome of the game using np.random.binomial
+    outcome = np.random.binomial(1, p1_prob)
+    if outcome == 1:
         p1_wins += 1
-    elif p1_win == 0 and p2_win == 1:
+    else:
         p2_wins += 1
 
-print(f"{players_names[0]} win rate: {p1_wins/n_simulations}")
-print(f"{players_names[0]} number of wins: {p1_wins} or , {(p1_wins/n_simulations) * 100} %")
-print(f"{players_names[1]} win rate: {p2_wins/n_simulations}")
-print(f"{players_names[1]} number of wins: {p2_wins} or , {(p2_wins/n_simulations) * 100} %")
-
-
-
 # Plot the results
-labels = ['Player 1 Wins', 'Player 2 Wins']
-values = [p1_wins, p2_wins]
 
-fig, ax = plt.subplots()
-ax.bar(labels, values)
-ax.set_title('Results of {} Simulations'.format(n_simulations))
-ax.set_xlabel('Player')
-ax.set_ylabel('Number of Wins')
+plt.bar([p1_name, p2_name], [p1_wins, p2_wins])
+plt.ylabel('Number of Wins')
+plt.title('Monte Carlo Simulation Results')
 plt.show()
+
+print(p1_name, "wins: ", p1_wins, "or", round((p1_wins/num_games)*100, 2), "%")
+print(p2_name, "wins: ", p2_wins, "or", round((p2_wins/num_games)*100, 2), "%")
+
 
 exit()
 

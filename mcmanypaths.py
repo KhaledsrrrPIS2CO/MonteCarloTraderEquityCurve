@@ -149,7 +149,7 @@ std_dev_round = round(std_dev, 2)
 print("σ: One standard deviation of variation from average equity:", std_dev_round)
 
 
-# plot
+# plot the graph
 plt.title("Monte Carlo Simulation")
 plt.ylabel("$$$$$")
 plt.xlabel("Num of simulations")

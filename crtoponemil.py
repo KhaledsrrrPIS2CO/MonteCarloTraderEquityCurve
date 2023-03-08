@@ -12,6 +12,7 @@ api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlY
 def get_clan_tags(clan_tag, api_token):
     # API endpoint
     api_url = 'https://api.clashroyale.com/v1/clans/{}/members'
+    api_url_1 = 'https://api.clashroyale.com/v1/clans/{}/'
 
     # Request headers with your API token
     headers = {'Authorization': f'Bearer {api_token}'}
@@ -23,6 +24,10 @@ def get_clan_tags(clan_tag, api_token):
     if response.status_code == 200:
         # Extract the tags of each member
         members = response.json()['items']
+        print("The available variables of dictionary: ", api_url, "is: ", members, "\n")
+        print("The available variables of dictionary: ", api_url_1, "is: ", members, "\n")
+
+
         tags = [member['tag'] for member in members]
         return tags
     else:

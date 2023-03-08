@@ -2,7 +2,7 @@ import requests
 import numpy as np
 import matplotlib.pyplot as plt
 
-player_tags = ["%23QCR929GGQ", "%232LL288R9Y", ]
+player_tags = ["%23QCR929GGQ", "%23GYQRJ28L", ]
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
            '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
            'YzI5ZjJhOSIsImlhdCI6MTY3NzYxMjc2NSwic3ViIjoiZGV2ZWxvcGVyLzc3YWQ4NGY3LTFjNzItNjMwOC0yY2Y3LTliOGRkN2E3OTYw' \
@@ -24,6 +24,7 @@ for tag in player_tags:
 
     if response.status_code == 200:
         data = response.json()
+        print("The available variables of dictionary: ", url, "is: ", data, "\n")
         player_name = data['name']
         wins = data['wins']
         losses = data['losses']

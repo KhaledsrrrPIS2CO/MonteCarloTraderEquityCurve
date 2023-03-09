@@ -2,7 +2,7 @@ import requests
 import numpy as np
 import matplotlib.pyplot as plt
 
-player_tags = ["%23QCR929GGQ", "%23GYQRJ28L", ]
+player_tags = ["%23QCR929GGQ", "%23G9YV9GR8R", ]
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
            '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
            'YzI5ZjJhOSIsImlhdCI6MTY3NzYxMjc2NSwic3ViIjoiZGV2ZWxvcGVyLzc3YWQ4NGY3LTFjNzItNjMwOC0yY2Y3LTliOGRkN2E3OTYw' \
@@ -113,5 +113,5 @@ exit()
 # ME: %23QCR929GGQ
 # Mohamed Light's %23G9YV9GR8R
 # SK Morten's %23R09228V
-#zaal %23LYJ0VJ2YC
+# zaal %23LYJ0VJ2YC
 # 0dte %23QQCJPVVU0

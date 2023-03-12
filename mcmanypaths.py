@@ -12,11 +12,11 @@ loss_pct = 0.01
 # the percentage gain when a trade is successful
 win_pct = 0.027
 # the win rate of the trader's trades
-win_rate = 0.4
+win_rate = 0.43
 # number of trades to be simulated
 number_of_trades = 400
 # number of runs or number of paths/traders
-number_of_paths = 400
+number_of_paths = 100000
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower
@@ -30,8 +30,8 @@ sudden_convex_interval_upper = 80  # the sudden convex interval upper
 convex_payoff_upper = 0.01  # upper bound for the random convex payoff
 convex_payoff_lower = 0.01  # lower bound for the random convex payoff
 
-print("Stats\nrrr: ", win_pct * 100, " to ", loss_pct * 100, "\nwin rate: ", win_rate, "%", "\nPaths/traders num: ",
-      number_of_paths, "\nTrades num:", number_of_trades, "\n")
+print("Stats\nrrr: ", win_pct * 100, " to ", loss_pct * 100, "\nwin rate: ", win_rate, "%", "\nTrades num:",
+      number_of_trades,  "\nPaths/traders num: ", number_of_paths, "\n")
 
 # Defining the simulation function
 def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations):

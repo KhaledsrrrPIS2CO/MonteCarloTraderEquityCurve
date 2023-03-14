@@ -42,8 +42,8 @@ for tag in player_tags:
         print(f"Win rate: {win_rate:.2f}%")
         print("Loss rate:", round(100 - win_rate, 2), "%")
         real_win_rate = round(wins / sum_wins_losses * 100, 2)
-        print("Win rate (raw):", round(wins / battle_count * 100, 2), "%")
-        print("Loss rate (raw):", round(100 - round(wins / battle_count * 100, 2)), "%")
+        print("Win rate (with discrepancy):", round(wins / battle_count * 100, 2), "%")
+        print("Loss rate (with discrepancy):", round(100 - round(wins / battle_count * 100, 2)), "%")
         print("\n_______________________")
         players_names.append(player_name)
         players_win_rate.append(win_rate / 100)
@@ -62,8 +62,8 @@ p2_win_rate = players_win_rate[1]
 # Adjusted future potential win probability
 p1_adjusted_future_win_rate = p1_win_rate / (p1_win_rate + p2_win_rate) * 100
 p2_adjusted_future_win_rate = p2_win_rate / (p2_win_rate + p1_win_rate) * 100
-print(f"Adjusted future potential win rate of player one, {players_names[0]}: {p1_adjusted_future_win_rate:.2f}%")
-print(f"Adjusted future potential win rate of player two, {players_names[1]}: {p2_adjusted_future_win_rate:.2f}%")
+print(f"Future potential win rate of player one, {players_names[0]}: {p1_adjusted_future_win_rate:.2f}%")
+print(f"Future potential win rate of player two, {players_names[1]}: {p2_adjusted_future_win_rate:.2f}%")
 print("\n")
 
 # Monte Carlo simulation

@@ -16,7 +16,7 @@ win_rate = 0.43
 # number of trades to be simulated
 number_of_trades = 400
 # number of runs or number of paths/traders
-number_of_paths = 100000
+number_of_paths = 1000
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower
@@ -131,7 +131,7 @@ for i in range(n_paths):
     final_equity = result[-1]
     if final_equity >= 2 * initial_equity:
         n_doubled += 1
-p_doubled = (n_doubled / n_paths) * 100
+p_doubled = round((n_doubled / n_paths) * 100, 2)
 print("Probability of doubling initial equity:", p_doubled, "%")
 
 # Std from average. Calculate the variation from the average equity for each simulation

@@ -40,8 +40,6 @@ print("Clan players tags: ", tags)
 print("_____")
 
 
-import requests
-
 def get_player_tags(clan_tags, api_key):
     player_tags = []
     for tag in clan_tags:
@@ -93,11 +91,6 @@ api_key = api_key
 player_tags = get_top_clans_and_players(api_key)
 print("Player tags of top 1000 clans: ", player_tags)
 print("----")
-
-
-
-
-
 
 def get_clan_details(clan_tag, api_key):
     # API endpoint

@@ -23,10 +23,9 @@ def get_clan_player_tags(clan_tag, api_token):
     if response.status_code == 200:
         # Extract the tags of each member
         members = response.json()['items']
-        clan_name = response.json().get('name', 'Unknown Clan')
 
         tags = [member['tag'] for member in members]
-        return tags, clan_name
+        return tags
     else:
         print(f'Error retrieving clan members for tag {clan_tag}: {response.status_code}')
         return []

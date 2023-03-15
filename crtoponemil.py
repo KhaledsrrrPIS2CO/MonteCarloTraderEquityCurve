@@ -23,15 +23,16 @@ def get_clan_player_tags(clan_tag, api_token):
     if response.status_code == 200:
         # Extract the tags of each member
         members = response.json()['items']
+        clan_name = response.json().get('name', 'Unknown Clan')
 
         tags = [member['tag'] for member in members]
-        return tags
+        return tags, clan_name
     else:
         print(f'Error retrieving clan members for tag {clan_tag}: {response.status_code}')
         return []
 # call the get_clan_player_tags fun
 api_key = api_key
-clan_tag = "%23QRP2YG9P"
+clan_tag = "%23G2JYP9V2"
 tags = get_clan_player_tags(clan_tag, api_key)
 print("Clan players tags: ", tags)
 # 'tag': '#9PG00RUU'
@@ -109,7 +110,33 @@ def get_top_clan_tags(api_key):
 api_key = api_key
 top_clans_tags = get_top_clan_tags(api_key)
 top_clans_tags_len = len(top_clans_tags)
-print(f"Top {top_clans_tags_len}  clans tags with score over 72000L ", top_clans_tags)
+print(f"Top {top_clans_tags_len}  clans tags with score over 72000: ", top_clans_tags)
+print("_____")
+
+
+def get_player_tags(api_key, clan_tags):
+    player_tags = []
+
+    for tag in clan_tags:
+        url = f"https://api.clashroyale.com/v1/clans/{tag}/members"
+        headers = {"Authorization": f"Bearer {api_key}"}
+
+        response = requests.get(url, headers=headers)
+        data = response.json()
+
+        if "items" not in data:
+            print(f"Error: API response for clan tag {tag} does not contain 'items' key")
+            continue
+
+        for member in data["items"]:
+            player_tags.append(member["tag"])
+
+    return player_tags
+api_key = api_key
+top_clans_tags = get_top_clan_tags(api_key)
+player_tags = get_player_tags(api_key, top_clans_tags)
+print(f"Retrieved {len(player_tags)} player tags:")
+print(player_tags)
 
 
 exit()

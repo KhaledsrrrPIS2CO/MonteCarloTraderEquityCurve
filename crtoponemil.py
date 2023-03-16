@@ -1,4 +1,6 @@
 import requests
+import re
+
 
 # Obtain an API key from the Clash Royale Developer Portal
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
@@ -24,16 +26,22 @@ def get_clan_player_tags(clan_tag, api_token):
         # Extract the tags of each member
         members = response.json()['items']
 
+        # Get the clan name
+        clan_url = f'https://api.clashroyale.com/v1/clans/{clan_tag}'
+        clan_response = requests.get(clan_url, headers=headers)
+        clan_name = clan_response.json()['name']
+
         tags = [member['tag'] for member in members]
-        return tags
+
+        return clan_name, tags
     else:
         print(f'Error retrieving clan members for tag {clan_tag}: {response.status_code}')
         return []
 # call the get_clan_player_tags fun
 api_key = api_key
 clan_tag = "%23G2JYP9V2"
-tags = get_clan_player_tags(clan_tag, api_key)
-print("Clan players tags: ", tags)
+caln_name_tags = get_clan_player_tags(clan_tag, api_key)
+print("Clan name and tags: ", caln_name_tags)
 # 'tag': '#9PG00RUU'
 # "tag": "#Q9RYUCJG",
 # clan': Mo light {'tag': '#QV9PGUJR', 'name': 'GKR
@@ -113,6 +121,19 @@ print(f"Top {top_clans_tags_len}  clans tags with score over 72000: ", top_clans
 print("_____")
 
 
+def decoding_clan_tags(clan_tags):
+    decoded_clan_tags = []
+    for tag in clan_tags:
+        decoded_clan_tag = re.sub(r'#', '%23', tag)
+        decoded_clan_tags.append(decoded_clan_tag)
+
+    return decoded_clan_tags
+# Decoding JSON
+decoded_clan_tags = decoding_clan_tags(top_clans_tags)
+print("Decoded clan tags:", decoded_clan_tags)
+print("_____")
+
+
 def get_player_tags(api_key, clan_tags):
     player_tags = []
 
@@ -132,10 +153,10 @@ def get_player_tags(api_key, clan_tags):
 
     return player_tags
 api_key = api_key
-top_clans_tags = get_top_clan_tags(api_key)
-player_tags = get_player_tags(api_key, top_clans_tags)
+player_tags = get_player_tags(api_key, decoded_clan_tags)
 print(f"Retrieved {len(player_tags)} player tags:")
-print(player_tags)
+print("Player tags: ", player_tags)
+print("_____")
 
 
 exit()

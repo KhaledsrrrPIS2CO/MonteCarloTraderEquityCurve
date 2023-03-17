@@ -11,92 +11,7 @@ api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlY
           'YwldBk7aDqs9c-JZHDVcWSfivZt9TJ9AaPGSHegDDrj68nw'
 
 
-def get_clan_player_tags(clan_tag, api_token):
-    # API endpoint
-    api_url = 'https://api.clashroyale.com/v1/clans/{}/members'
-
-    # Request headers with your API token
-    headers = {'Authorization': f'Bearer {api_token}'}
-
-    # Send a request to get all members of the clan
-    url = api_url.format(clan_tag)
-    response = requests.get(url, headers=headers)
-
-    if response.status_code == 200:
-        # Extract the tags of each member
-        members = response.json()['items']
-
-        # Get the clan name
-        clan_url = f'https://api.clashroyale.com/v1/clans/{clan_tag}'
-        clan_response = requests.get(clan_url, headers=headers)
-        clan_name = clan_response.json()['name']
-
-        tags = [member['tag'] for member in members]
-
-        return clan_name, tags
-    else:
-        print(f'Error retrieving clan members for tag {clan_tag}: {response.status_code}')
-        return []
-# call the get_clan_player_tags fun
-api_key = api_key
-clan_tag = "%23G2JYP9V2"
-caln_name_tags = get_clan_player_tags(clan_tag, api_key)
-print("Clan name and tags: ", caln_name_tags)
-# 'tag': '#9PG00RUU'
-# "tag": "#Q9RYUCJG",
-# clan': Mo light {'tag': '#QV9PGUJR', 'name': 'GKR
-print("_____")
-
-
-def get_clan_details(clan_tag, api_key):
-    # API endpoint
-    api_url = 'https://api.clashroyale.com/v1/clans/{}'
-
-    # Request headers with your API token
-    headers = {'Authorization': f'Bearer {api_key}'}
-
-    # Send a request to get the clan details
-    url = api_url.format(clan_tag)
-    response = requests.get(url, headers=headers)
-
-    if response.status_code == 200:
-        # Extract the clan details
-        clan_details = response.json()
-        return clan_details
-    else:
-        print(f'Error retrieving clan details for tag {clan_tag}: {response.status_code}')
-        return None
-
-# Call get_clan_details fun
-api_key = api_key
-clan_tag = '%23QRP2YG9P'
-clan_details = get_clan_details(clan_tag, api_key)
-clan_name = clan_details["name"]
-print(f"Clan {clan_name} details:",  clan_details)
-print("_____")
-
-
-def get_player_details(player_tag, api_token):
-    api_url = 'https://api.clashroyale.com/v1/players/{}'
-    headers = {'Authorization': f'Bearer {api_token}'}
-    url = api_url.format(player_tag)
-    response = requests.get(url, headers=headers)
-
-    if response.status_code == 200:
-        return response.json()
-    else:
-        print(f'Error retrieving player details for tag {player_tag}: {response.status_code}')
-        return {}
-# Call get_player_details fun
-api_key = api_key
-player_tag = "%23QCR929GGQ"
-player_details = get_player_details(player_tag, api_key)
-player_name = player_details["name"]
-print(f"Player {player_name} details: ", player_details)
-print("_____")
-
-
-def get_top_clan_tags(api_key):
+def get_clan_tags_with_score_above(api_key):
     url = "https://api.clashroyale.com/v1/clans?score=72000&locationId=57000010&limit=1000"
     headers = {"Authorization": f"Bearer {api_key}"}
 
@@ -114,10 +29,11 @@ def get_top_clan_tags(api_key):
 
     return tags
 
-api_key = api_key
-top_clans_tags = get_top_clan_tags(api_key)
+
+# Call get_top_clan_tags
+top_clans_tags = get_clan_tags_with_score_above(api_key)
 top_clans_tags_len = len(top_clans_tags)
-print(f"Top {top_clans_tags_len}  clans tags with score over 72000: ", top_clans_tags)
+print(f"Retrieved {top_clans_tags_len} clans tags with score over 72000.")
 print("_____")
 
 
@@ -129,9 +45,11 @@ def decoding_clan_tags(clan_tags):
         decoded_clan_tags.append(decoded_clan_tag)
 
     return decoded_clan_tags
-# Decoding JSON
+
+
+# Call decoding_clan_tags
 decoded_clan_tags = decoding_clan_tags(top_clans_tags)
-print("Decoded clan tags:", decoded_clan_tags)
+print(f"Decoded {len(decoded_clan_tags)} clan tags.")
 print("_____")
 
 
@@ -153,7 +71,9 @@ def get_player_tags(api_key, clan_tags):
             player_tags.append(member["tag"])
 
     return player_tags
-api_key = api_key
+
+
+# Call get_player_tags
 player_tags = get_player_tags(api_key, decoded_clan_tags)
 print(f"Retrieved {len(player_tags)} players tags.")
 print("_____")
@@ -167,11 +87,50 @@ def decoding_players_tags(player_tags):
         decoded_players_tags.append(decoded_player_tag)
 
     return decoded_players_tags
-# Decoding JSON
+
+
+# Call decoding_players_tags
 decoded_players_tags = decoding_players_tags(player_tags)
-print("Decoded players tags:", decoded_players_tags)
+print(f"Decoded {len(decoded_players_tags)} players tags.")
 print("_____")
 
 
+import requests
+
+
+def get_clan_details(api_key, clan_tag):
+    url = f"https://api.clashroyale.com/v1/clans/{clan_tag}"
+    headers = {"Authorization": f"Bearer {api_key}"}
+
+    response = requests.get(url, headers=headers)
+    data = response.json()
+
+    if "name" not in data:
+        print(f"Error: API response for clan tag {clan_tag} does not contain 'name' key")
+        return None
+
+    clan_details = {
+        "name": data["name"],
+        "tag": data["tag"],
+        "description": data.get("description", ""),
+        "type": data.get("type", ""),
+        "location": {
+            "name": data.get("location", {}).get("name", ""),
+            "code": data.get("location", {}).get("id", "")
+        },
+        "members": data.get("members", 0),
+        "score": data.get("score", 0),
+        "donations": data.get("donations", 0),
+        "clan_war_trophies": data.get("clanWarTrophies", 0),
+        "required_trophies": data.get("requiredTrophies", 0),
+        "clan_chest_level": data.get("clanChestLevel", 0),
+        "clan_chest_max_level": data.get("clanChestMaxLevel", 0)
+    }
+
+    return clan_details
+
+
+clan_tag = "%239YLRLG09"
+clan_details = get_clan_details(api_key, clan_tag)
+print("Clan details:", clan_details)
 exit()
-# print("The available variables of dictionary: ", api_url, "is: ", members, "\n")

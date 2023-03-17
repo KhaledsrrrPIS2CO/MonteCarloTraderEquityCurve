@@ -123,6 +123,7 @@ print("_____")
 
 def decoding_clan_tags(clan_tags):
     decoded_clan_tags = []
+
     for tag in clan_tags:
         decoded_clan_tag = re.sub(r'#', '%23', tag)
         decoded_clan_tags.append(decoded_clan_tag)
@@ -154,8 +155,21 @@ def get_player_tags(api_key, clan_tags):
     return player_tags
 api_key = api_key
 player_tags = get_player_tags(api_key, decoded_clan_tags)
-print(f"Retrieved {len(player_tags)} player tags:")
-print("Player tags: ", player_tags)
+print(f"Retrieved {len(player_tags)} players tags.")
+print("_____")
+
+
+def decoding_players_tags(player_tags):
+    decoded_players_tags = []
+
+    for tag in player_tags:
+        decoded_player_tag = re.sub(r'#', '%23', tag)
+        decoded_players_tags.append(decoded_player_tag)
+
+    return decoded_players_tags
+# Decoding JSON
+decoded_players_tags = decoding_players_tags(player_tags)
+print("Decoded players tags:", decoded_players_tags)
 print("_____")
 
 

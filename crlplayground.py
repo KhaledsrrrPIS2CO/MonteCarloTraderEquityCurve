@@ -9,31 +9,52 @@ api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlY
           'YwldBk7aDqs9c-JZHDVcWSfivZt9TJ9AaPGSHegDDrj68nw'
 
 
-def get_clan_tags_with_score_above(api_key, score, location_id, limit):
-    url = f"https://api.clashroyale.com/v1/clans?score={score}&locationId={location_id}&limit={limit}"
-    headers = {"Authorization": f"Bearer {api_key}"}
+def get_clans_above_score(api_key: str, min_score: int) -> list:
+    """
+    Retrieve the tags of all Clash Royale clans with a `clanScore` above `min_score`.
 
+    Parameters:
+    api_key (str): Your Clash Royale API key.
+    min_score (int): The minimum `clanScore` value that the returned clans should have.
+
+    Returns:
+    list: A list of clan tags (strings) for the clans with `clanScore` above `min_score`.
+
+    Raises:
+    ValueError: If the API returns an error status code.
+    """
+
+    # Construct the API request URL and headers
+    url = f"https://api.clashroyale.com/v1/clans?minScore={min_score}"
+    headers = {
+        "Accept": "application/json",
+        "authorization": f"Bearer {api_key}"
+    }
+
+    # Send the API request and handle the response
     response = requests.get(url, headers=headers)
-    data = response.json()
+    if response.status_code == 200:
+        items = response.json()["items"]
+        clan_tags = [item["tag"] for item in items]
+        return clan_tags
+    elif response.status_code == 400:
+        raise ValueError("Invalid input parameter(s)")
+    elif response.status_code == 401:
+        raise ValueError("Unauthorized access, check API key")
+    elif response.status_code == 403:
+        raise ValueError("Access denied, insufficient privileges")
+    elif response.status_code == 404:
+        raise ValueError("Resource not found")
+    else:
+        raise ValueError("Unknown error occurred")
 
-    if "items" not in data:
-        print("Error: API response does not contain 'items' key")
-        print(response.content)
-        return []
-
-    tags = []
-    for clan in data["items"]:
-        tags.append(clan["tag"])
-
-    return tags
 
 
-score = 72000
-location_id = 57000010
-limit = 1000
-clan_tags_with_score_above = get_clan_tags_with_score_above(api_key, score, location_id, limit)
-print("Clan tags: ", clan_tags_with_score_above)
-
+# Call get_clans_above_score
+min_score = 74000
+clan_tags_with_score_above = get_clans_above_score(api_key, min_score)
+print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score}.")
+print("____")
 
 def get_clan_details(api_key, clan_tag):
     url = f"https://api.clashroyale.com/v1/clans/{clan_tag}"

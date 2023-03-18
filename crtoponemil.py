@@ -1,7 +1,9 @@
 import requests
 import re
+import time
 
 
+start_time = time.time()
 # Obtained API key from the Clash Royale Developer Portal
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
           '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
@@ -11,7 +13,7 @@ api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlY
           'YwldBk7aDqs9c-JZHDVcWSfivZt9TJ9AaPGSHegDDrj68nw'
 
 
-def get_clans_above_score(api_key: str, min_score: int, location_id: int) -> list:
+def get_clans_tags_above_score(api_key: str, min_score: int, location_id: int) -> list:
     """
     Retrieve the tags of all Clash Royale clans with a `clanScore` above `min_score` and located in the given location.
 
@@ -54,11 +56,11 @@ def get_clans_above_score(api_key: str, min_score: int, location_id: int) -> lis
 
 # Call get_clans_above_score
 min_score = 75000
-location_id = 57000258  # This is the location ID for yemen
-clan_tags_with_score_above = get_clans_above_score(api_key, min_score, location_id)
-print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score} in location ID: {location_id}")
+location_id = 57000094  # This is the location ID for Germany
+clan_tags_with_score_above = get_clans_tags_above_score(api_key, min_score, location_id)
+print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score}"
+      f" in location ID: {location_id}")
 print("____")
-
 
 
 def decoding_clan_tags(clan_tags):
@@ -145,6 +147,7 @@ def get_player_stats(tag: str, api_key: str) -> dict:
         return {
             'player_tag': player_tag,
             'name': player_name,
+            'battle_count': battle_count,
             'net_win_rate': net_win_rate,
             'net_loss_rate': net_loss_rate,
             'win_rate_with_discrepancy': win_rate_with_discrepancy,
@@ -165,10 +168,17 @@ for tag in player_tags:
 
 for player in player_stats_list:
     print(f"Player tag: {player['player_tag']}")
+    print(f"Player name: {player['name']}")
+    print(f"Battle count: {player['battle_count']}")
+    print(f"Discrepancy : {player['discrepancy_pct']}%")
     print(f"Net win rate: {player['net_win_rate']:.2f}%")
     print(f"Net loss rate: {player['net_loss_rate']:.2f}%")
     print("\n_______________________")
 
 print("Done!")
+end_time = time.time()
+elapsed_time_min = (end_time - start_time)/60
+print(f"Elapsed time: {elapsed_time_min:.2f} minutes")
+
 
 exit()

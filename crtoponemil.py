@@ -2,7 +2,7 @@ import requests
 import re
 
 
-# Obtain an API key from the Clash Royale Developer Portal
+# Obtained API key from the Clash Royale Developer Portal
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
           '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
           'YzI5ZjJhOSIsImlhdCI6MTY3NzYxMjc2NSwic3ViIjoiZGV2ZWxvcGVyLzc3YWQ4NGY3LTFjNzItNjMwOC0yY2Y3LTliOGRkN2E3OTYw' \
@@ -11,23 +11,24 @@ api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlY
           'YwldBk7aDqs9c-JZHDVcWSfivZt9TJ9AaPGSHegDDrj68nw'
 
 
-def get_clans_above_score(api_key: str, min_score: int) -> list:
+def get_clans_above_score(api_key: str, min_score: int, location_id: int) -> list:
     """
-    Retrieve the tags of all Clash Royale clans with a `clanScore` above `min_score`.
+    Retrieve the tags of all Clash Royale clans with a `clanScore` above `min_score` and located in the given location.
 
     Parameters:
     api_key (str): Clash Royale API key.
     min_score (int): The minimum `clanScore` value that the returned clans should have.
+    location_id (int): The ID of the location to retrieve clans from.
 
     Returns:
-    list: A list of clan tags (strings) for the clans with `clanScore` above `min_score`.
+    list: A list of clan tags (strings) for the clans with `clanScore` above `min_score` and located in the given location.
 
     Raises:
     ValueError: If the API returns an error status code.
     """
 
     # Construct the API request URL and headers
-    url = f"https://api.clashroyale.com/v1/clans?minScore={min_score}"
+    url = f"https://api.clashroyale.com/v1/clans?minScore={min_score}&locationId={location_id}"
     headers = {
         "Accept": "application/json",
         "authorization": f"Bearer {api_key}"
@@ -53,9 +54,11 @@ def get_clans_above_score(api_key: str, min_score: int) -> list:
 
 # Call get_clans_above_score
 min_score = 75000
-clan_tags_with_score_above = get_clans_above_score(api_key, min_score)
-print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score}.")
+location_id = 57000258  # This is the location ID for yemen
+clan_tags_with_score_above = get_clans_above_score(api_key, min_score, location_id)
+print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score} in location ID: {location_id}")
 print("____")
+
 
 
 def decoding_clan_tags(clan_tags):
@@ -155,7 +158,6 @@ def get_player_stats(tag: str, api_key: str) -> dict:
 
 
 player_tags = decoded_players_tags_list
-
 player_stats_list = []
 for tag in player_tags:
     player_stats = get_player_stats(tag, api_key)
@@ -166,5 +168,7 @@ for player in player_stats_list:
     print(f"Net win rate: {player['net_win_rate']:.2f}%")
     print(f"Net loss rate: {player['net_loss_rate']:.2f}%")
     print("\n_______________________")
+
+print("Done!")
 
 exit()

@@ -4,13 +4,13 @@ import time
 import mysql.connector
 
 start_time = time.time()
-# cnx = mysql.connector.connect(
-#     user='your_username',
-#     password='your_password',
-#     host='your_host',
-#     database='clash_royale'
-# )
-# cursor = cnx.cursor()
+cnx = mysql.connector.connect(
+    user='root',
+    password='2020$2020$ABC',
+    host='127.0.0.1',
+    database='clash_royale_database'
+)
+cursor = cnx.cursor()
 
 # Obtained API key from the Clash Royale Developer Portal
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
@@ -129,7 +129,7 @@ print(f"Decoded {len(decoded_players_tags_list)} players tags.")
 print("_____")
 
 
-def fetch_and_insert_player_stats(tag: str, api_key: str) -> dict:
+def get_player_stats(tag: str, api_key: str) -> dict:
     url = f"https://api.clashroyale.com/v1/players/{tag}/"
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -171,7 +171,7 @@ def fetch_and_insert_player_stats(tag: str, api_key: str) -> dict:
 player_tags = decoded_players_tags_list
 player_stats_list = []
 for tag in player_tags:
-    player_stats = fetch_and_insert_player_stats(tag, api_key)
+    player_stats = get_player_stats(tag, api_key)
     player_stats_list.append(player_stats)
 
 for player in player_stats_list:

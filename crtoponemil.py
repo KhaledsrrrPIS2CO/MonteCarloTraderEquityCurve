@@ -169,12 +169,12 @@ def get_player_stats(tag: str, api_key: str) -> dict:
 
 
 player_tags = decoded_players_tags_list
-player_stats_list = []
+player_stats_dict = []
 for tag in player_tags:
     player_stats = get_player_stats(tag, api_key)
-    player_stats_list.append(player_stats)
+    player_stats_dict.append(player_stats)
 
-for player in player_stats_list:
+for player in player_stats_dict:
     print(f"Player tag: {player['player_tag']}")
     print(f"Player name: {player['name']}")
     print(f"Battle count: {player['battle_count']}")
@@ -182,6 +182,40 @@ for player in player_stats_list:
     print(f"Net win rate: {player['net_win_rate']:.2f}%")
     print(f"Net loss rate: {player['net_loss_rate']:.2f}%")
     print("\n_______________________")
+
+
+def insert_player_stats_to_mysql(tag: str, api_key: str) -> None:
+    # get player stats
+    player_data = get_player_stats(tag, api_key)
+
+    # establish a connection to the MySQL database
+    cnx = mysql.connector.connect(
+        user='root',
+        password='2020$2020$ABC',
+        host='127.0.0.1',
+        database='clash_royale_database'
+    )
+
+    cursor = cnx.cursor()
+
+    # construct the SQL statement to insert the data
+    add_player = ("INSERT INTO player_stats "
+                  "(player_tag, name, battle_count, net_win_rate, net_loss_rate, "
+                  "win_rate_with_discrepancy, loss_rate_with_discrepancy, "
+                  "discrepancy_games, discrepancy_pct) "
+                  "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
+
+    # execute the SQL statement with the data returned by the function
+    data = (player_data['player_tag'], player_data['name'], player_data['battle_count'],
+            player_data['net_win_rate'], player_data['net_loss_rate'], player_data['win_rate_with_discrepancy'],
+            player_data['loss_rate_with_discrepancy'], player_data['discrepancy_games'], player_data['discrepancy_pct'])
+    cursor.execute(add_player, data)
+
+    # commit the changes to the database and close the cursor and connection
+    cnx.commit()
+    cursor.close()
+    cnx.close()
+
 
 print("Done!")
 end_time = time.time()

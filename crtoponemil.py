@@ -1,9 +1,17 @@
 import requests
 import re
 import time
-
+import mysql.connector
 
 start_time = time.time()
+# cnx = mysql.connector.connect(
+#     user='your_username',
+#     password='your_password',
+#     host='your_host',
+#     database='clash_royale'
+# )
+# cursor = cnx.cursor()
+
 # Obtained API key from the Clash Royale Developer Portal
 api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc' \
           '3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjY3ZDdiYTA1LWY1MWMtNDk4Zi05NTgyLTAxNjI4' \
@@ -56,7 +64,7 @@ def get_clans_tags_above_score(api_key: str, min_score: int, location_id: int) -
 
 # Call get_clans_above_score
 min_score = 75000
-location_id = 57000094  # This is the location ID for Germany
+location_id = 57000188  # This is the location ID for Germany
 clan_tags_with_score_above = get_clans_tags_above_score(api_key, min_score, location_id)
 print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score}"
       f" in location ID: {location_id}")
@@ -121,7 +129,7 @@ print(f"Decoded {len(decoded_players_tags_list)} players tags.")
 print("_____")
 
 
-def get_player_stats(tag: str, api_key: str) -> dict:
+def fetch_and_insert_player_stats(tag: str, api_key: str) -> dict:
     url = f"https://api.clashroyale.com/v1/players/{tag}/"
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -163,7 +171,7 @@ def get_player_stats(tag: str, api_key: str) -> dict:
 player_tags = decoded_players_tags_list
 player_stats_list = []
 for tag in player_tags:
-    player_stats = get_player_stats(tag, api_key)
+    player_stats = fetch_and_insert_player_stats(tag, api_key)
     player_stats_list.append(player_stats)
 
 for player in player_stats_list:

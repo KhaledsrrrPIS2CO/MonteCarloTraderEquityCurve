@@ -182,13 +182,12 @@ for player in player_stats_dict:
     print(f"Net win rate: {player['net_win_rate']:.2f}%")
     print(f"Net loss rate: {player['net_loss_rate']:.2f}%")
     print("\n_______________________")
+print("player_stats_dict: ", player_stats_dict)
+print("_____")
 
 
-def insert_player_stats_to_mysql(tag: str, api_key: str) -> None:
+def insert_player_stats_to_mysql(player_stats_list: list) -> None:
     try:
-        # get player stats
-        player_data = get_player_stats(tag, api_key)
-
         # establish a connection to the MySQL database
         cnx = mysql.connector.connect(
             user='root',
@@ -200,20 +199,22 @@ def insert_player_stats_to_mysql(tag: str, api_key: str) -> None:
         print("Connection to MySQL database successful!")
         cursor = cnx.cursor()
 
-        # construct the SQL statement to insert the data
-        add_player = ("INSERT INTO player_stats "
-                      "(player_tag, name, battle_count, net_win_rate, net_loss_rate, "
-                      "win_rate_with_discrepancy, loss_rate_with_discrepancy, "
-                      "discrepancy_games, discrepancy_pct) "
-                      "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
+        # iterate over the list of player stats and insert each player's data into the table
+        for player_data_sql in player_stats_list:
+            # construct the SQL statement to insert the data
+            add_player = ("INSERT INTO player_stats "
+                          "(player_tag, name, battle_count, net_win_rate, net_loss_rate, "
+                          "win_rate_with_discrepancy, loss_rate_with_discrepancy, "
+                          "discrepancy_games, discrepancy_pct) "
+                          "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)")
 
-        # execute the SQL statement with the data returned by the function
-        data = (player_data['player_tag'], player_data['name'], player_data['battle_count'],
-                player_data['net_win_rate'], player_data['net_loss_rate'],
-                player_data['win_rate_with_discrepancy'],
-                player_data['loss_rate_with_discrepancy'], player_data['discrepancy_games'],
-                player_data['discrepancy_pct'])
-        cursor.execute(add_player, data)
+            # execute the SQL statement with the data for the current player
+            data = (player_data_sql['player_tag'], player_data_sql['name'], player_data_sql['battle_count'],
+                    player_data_sql['net_win_rate'], player_data_sql['net_loss_rate'],
+                    player_data_sql['win_rate_with_discrepancy'],
+                    player_data_sql['loss_rate_with_discrepancy'], player_data_sql['discrepancy_games'],
+                    player_data_sql['discrepancy_pct'])
+            cursor.execute(add_player, data)
 
         # commit the changes to the database and close the cursor and connection
         cnx.commit()
@@ -222,6 +223,10 @@ def insert_player_stats_to_mysql(tag: str, api_key: str) -> None:
 
     except mysql.connector.Error as error:
         print("Connection to MySQL database failed! Error code: {}".format(error.errno))
+
+
+insert_player_stats_to_mysql(player_stats_dict)
+print("_____")
 
 
 print("Done!")

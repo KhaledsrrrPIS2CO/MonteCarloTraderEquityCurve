@@ -171,16 +171,7 @@ for tag in player_tags:
     player_stats = get_player_stats(tag, api_key)
     player_stats_dict.append(player_stats)
 
-# for player in player_stats_dict:
-#     print(f"Player tag: {player['player_tag']}")
-#     print(f"Player name: {player['name']}")
-#     print(f"Battle count: {player['battle_count']}")
-#     print(f"Discrepancy : {player['discrepancy_pct']}%")
-#     print(f"Net win rate: {player['net_win_rate']:.2f}%")
-#     print(f"Net loss rate: {player['net_loss_rate']:.2f}%")
-#     print("\n_______________________")
-# print("player_stats_dict: ", player_stats_dict)
-# print("_____")
+
 print("Now insert to MySQL")
 
 

@@ -21,24 +21,23 @@ api_key = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlY
           'YwldBk7aDqs9c-JZHDVcWSfivZt9TJ9AaPGSHegDDrj68nw'
 
 
-def get_clans_tags_above_score(api_key: str, min_score: int, location_id: int) -> list:
+def get_clans_tags_above_score(api_key: str, min_score: int) -> list:
     """
-    Retrieve the tags of all Clash Royale clans with a `clanScore` above `min_score` and located in the given location.
+    Retrieve the tags of all Clash Royale clans with a `clanScore` above `min_score`.
 
     Parameters:
     api_key (str): Clash Royale API key.
     min_score (int): The minimum `clanScore` value that the returned clans should have.
-    location_id (int): The ID of the location to retrieve clans from.
 
     Returns:
-    list: A list of clan tags (strings) for the clans with `clanScore` above `min_score` and located in the given location.
+    list: A list of clan tags (strings) for the clans with `clanScore` above `min_score`.
 
     Raises:
     ValueError: If the API returns an error status code.
     """
 
     # Construct the API request URL and headers
-    url = f"https://api.clashroyale.com/v1/clans?minScore={min_score}&locationId={location_id}"
+    url = f"https://api.clashroyale.com/v1/clans?minScore={min_score}"
     headers = {
         "Accept": "application/json",
         "authorization": f"Bearer {api_key}"
@@ -63,11 +62,9 @@ def get_clans_tags_above_score(api_key: str, min_score: int, location_id: int) -
 
 
 # Call get_clans_above_score
-min_score = 75000
-location_id = 57000188  # This is the location ID for Germany
-clan_tags_with_score_above = get_clans_tags_above_score(api_key, min_score, location_id)
-print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score}"
-      f" in location ID: {location_id}")
+min_score = 74000
+clan_tags_with_score_above = get_clans_tags_above_score(api_key, min_score)
+print(f"Retrieved {len(clan_tags_with_score_above)} Clan tags with score above {min_score}")
 print("____")
 
 
@@ -174,16 +171,17 @@ for tag in player_tags:
     player_stats = get_player_stats(tag, api_key)
     player_stats_dict.append(player_stats)
 
-for player in player_stats_dict:
-    print(f"Player tag: {player['player_tag']}")
-    print(f"Player name: {player['name']}")
-    print(f"Battle count: {player['battle_count']}")
-    print(f"Discrepancy : {player['discrepancy_pct']}%")
-    print(f"Net win rate: {player['net_win_rate']:.2f}%")
-    print(f"Net loss rate: {player['net_loss_rate']:.2f}%")
-    print("\n_______________________")
-print("player_stats_dict: ", player_stats_dict)
-print("_____")
+# for player in player_stats_dict:
+#     print(f"Player tag: {player['player_tag']}")
+#     print(f"Player name: {player['name']}")
+#     print(f"Battle count: {player['battle_count']}")
+#     print(f"Discrepancy : {player['discrepancy_pct']}%")
+#     print(f"Net win rate: {player['net_win_rate']:.2f}%")
+#     print(f"Net loss rate: {player['net_loss_rate']:.2f}%")
+#     print("\n_______________________")
+# print("player_stats_dict: ", player_stats_dict)
+# print("_____")
+print("Now insert to MySQL")
 
 
 def insert_player_stats_to_mysql(player_stats_list: list) -> None:

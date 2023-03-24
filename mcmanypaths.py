@@ -10,28 +10,30 @@ initial_equity = 3000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
-win_pct = 0.027
+win_pct = 0.03
 # the win rate of the trader's trades
-win_rate = 0.43
+win_rate = 0.3
 # number of trades to be simulated
 number_of_trades = 400
 # number of runs or number of paths/traders
-number_of_paths = 1000
+number_of_paths = 100000
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower
 sudden_error_interval_upper = 80  # the sudden convex interval upper
-sudden_error_upper = 0.01  # the sudden loss upper rate
-sudden_error_lower = 0.01  # the sudden loss  lower rate
+sudden_error_upper = 0.06  # the sudden loss upper rate
+sudden_error_lower = 0.03  # the sudden loss  lower rate
 
 #  convex parameters
 sudden_convex_interval_lower = 40  # the sudden convex interval lower
 sudden_convex_interval_upper = 80  # the sudden convex interval upper
-convex_payoff_upper = 0.01  # upper bound for the random convex payoff
-convex_payoff_lower = 0.01  # lower bound for the random convex payoff
+convex_payoff_upper = 0.15  # upper bound for the random convex payoff
+convex_payoff_lower = 0.08  # lower bound for the random convex payoff
 
-print("Stats\nrrr: ", win_pct * 100, " to ", loss_pct * 100, "\nwin rate: ", win_rate, "%", "\nTrades num:",
-      number_of_trades,  "\nPaths/traders num: ", number_of_paths, "\n")
+print(f"Stats\nrrr: ", win_pct * 100, " to ", loss_pct * 100, "\nwin rate: ", win_rate, "%", "\nTrades num:",
+      number_of_trades,  "\nPaths/traders num: ", number_of_paths, "\n"f'Sudden error % (random range) from'
+      f' {sudden_error_lower*100}'  f' to {sudden_error_upper * 100}\nSudden convex profit % (random range) from'
+      f' {convex_payoff_lower*100} to {convex_payoff_upper*100}\n')
 
 # Defining the simulation function
 def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations):

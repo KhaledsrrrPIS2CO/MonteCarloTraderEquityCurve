@@ -6,7 +6,7 @@ import time
 # Defining parameters
 start_time = time.time()
 # initial equity amount of the options trader
-initial_equity = 15000
+initial_equity = 2500
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
@@ -16,7 +16,7 @@ win_rate = 0.3
 # number of trades to be simulated
 number_of_trades = 400
 # number of runs or number of paths/traders
-number_of_paths = 200000
+number_of_paths = 200
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower

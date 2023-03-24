@@ -6,7 +6,7 @@ import time
 # Defining parameters
 start_time = time.time()
 # initial equity amount of the options trader
-initial_equity = 3000
+initial_equity = 15000
 # the percentage loss when a trade is not successful
 loss_pct = 0.01
 # the percentage gain when a trade is successful
@@ -16,7 +16,7 @@ win_rate = 0.3
 # number of trades to be simulated
 number_of_trades = 400
 # number of runs or number of paths/traders
-number_of_paths = 100000
+number_of_paths = 200000
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower
@@ -145,9 +145,29 @@ print("σ: One standard deviation of variation from average equity:", std_dev_ro
 
 # plot the graph
 plt.title("Monte Carlo Simulation")
-plt.ylabel("$$$$$")
+plt.ylabel("$$$")
 plt.xlabel("Num of simulations")
 plt.show()
+
+# Running the simulation and storing the results
+n_paths = number_of_paths
+all_paths_results = []
+
+for i in range(n_paths):
+    result = simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, number_of_trades)
+    all_paths_results.append(result)
+
+# Calculate the end result of each path
+end_results = [result[-1] for result in all_paths_results]
+
+# Plotting the histogram of the end results
+plt.figure(figsize=(7, 7))
+plt.hist(end_results, bins=100)
+plt.xlabel("$$$")
+plt.ylabel("Number of companies/traders")
+plt.title("Histogram of End Results")
+plt.show()
+
 
 # Time needed for the whole MC simulation
 elapsed_time = time.time() - start_time

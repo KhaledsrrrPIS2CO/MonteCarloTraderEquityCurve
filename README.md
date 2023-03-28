@@ -1,4 +1,6 @@
-The code is not complete (still need cleaning and caan be much faster)
+Please start exploring mcmanypaths.py
+
+The code is not complete (still needs cleaning and can be much faster when the number of simulations is more than 1,000,000 by using threading not parallel) 
 
 In this project, I employ simulation techniques to model the outcomes of a company or an investor's investment strategies. However, unlike conventional simulations that assume a predictable environment, I embrace randomness and use a Monte Carlo simulation that generates 200,000 paths (or any desired value), each representing a unique sequence of transactions, trades, or decisions.
 

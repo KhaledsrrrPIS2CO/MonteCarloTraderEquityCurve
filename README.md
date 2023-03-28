@@ -11,3 +11,5 @@ Through this simulation, I gain a deeper understanding of the range of possible 
 Hopefully with this modest simulation, we can recognize the importance of asymmetric payoffs for companies to make sure they are protected from the unlucky path. 
 
 Ultimately, my project demonstrates the power of embracing uncertainty and incorporating it into any analysis.
+
+My article: https://www.linkedin.com/pulse/against-all-odds-guy-made-31875242-lucky-outlier-random-alghaish%3FtrackingId=A9%252BAFz6bQcCDROL23eLmEg%253D%253D/?trackingId=A9%2BAFz6bQcCDROL23eLmEg%3D%3D

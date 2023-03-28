@@ -12,11 +12,11 @@ loss_pct = 0.01
 # the percentage gain when a trade is successful
 win_pct = 0.03
 # the win rate of the trader's trades
-win_rate = 0.3
+win_rate = 0.38
 # number of trades to be simulated
 number_of_trades = 400
 # number of runs or number of paths/traders
-number_of_paths = 200
+number_of_paths = 2000
 
 # error parameters
 sudden_error_interval_lower = 40  # the sudden convex interval lower
@@ -31,9 +31,10 @@ convex_payoff_upper = 0.15  # upper bound for the random convex payoff
 convex_payoff_lower = 0.08  # lower bound for the random convex payoff
 
 print(f"Stats\nrrr: ", win_pct * 100, " to ", loss_pct * 100, "\nwin rate: ", win_rate, "%", "\nTrades num:",
-      number_of_trades,  "\nPaths/traders num: ", number_of_paths, "\n"f'Sudden error % (random range) from'
-      f' {sudden_error_lower*100}'  f' to {sudden_error_upper * 100}\nSudden convex profit % (random range) from'
-      f' {convex_payoff_lower*100} to {convex_payoff_upper*100}\n')
+      number_of_trades, "\nPaths/traders num: ", number_of_paths, "\n"f'Sudden error % (random range) from'
+      f' {sudden_error_lower * 100}'  f' to {sudden_error_upper * 100}\nSudden convex profit % (random range) from'
+      f' {convex_payoff_lower * 100} to {convex_payoff_upper * 100}\n')
+
 
 # Defining the simulation function
 def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulations):
@@ -87,6 +88,7 @@ def simulate_equity_curve(initial_equity, loss_pct, win_pct, win_rate, n_simulat
         if equity_counter <= 0:
             break
     return equity_array
+
 
 #  Running the simulation and storing the results
 n_paths = number_of_paths
@@ -160,21 +162,17 @@ for i in range(n_paths):
 # Calculate the end result of each path
 end_results = [result[-1] for result in all_paths_results]
 
-# Plotting the histogram of the end results
+# # Plotting the histogram of the end results
 plt.figure(figsize=(7, 7))
-plt.hist(end_results, bins=100)
+plt.hist(end_results, bins=150)
 plt.xlabel("$$$")
 plt.ylabel("Number of companies/traders")
 plt.title("Histogram of End Results")
 plt.show()
 
-
 # Time needed for the whole MC simulation
 elapsed_time = time.time() - start_time
-rounded_time = round(elapsed_time/60, 2)
+rounded_time = round(elapsed_time / 60, 2)
 print("Computation time: ", rounded_time, "minutes")
 
 exit()
-
-
-
